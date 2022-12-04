@@ -5,7 +5,7 @@ using MusicApp.Infrastructure.Data.Entities;
 
 namespace MusicApp.Data
 {
-    public class MusicAppDbContext : IdentityDbContext
+    public class MusicAppDbContext : IdentityDbContext<User>
     {
         public MusicAppDbContext(DbContextOptions<MusicAppDbContext> options)
             : base(options)
