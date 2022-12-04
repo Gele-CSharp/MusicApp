@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MusicApp.Infrastructure.Data.Entities;
 using MusicApp.Models;
+using static MusicApp.Infrastructure.Data.ErrorMessages;
 
 namespace Library.Controllers
 {

@@ -18,5 +18,10 @@ namespace MusicApp.Infrastructure.Data.Entities
         /// User last name
         /// </summary>
         public string LastName { get; set; } = null!;
+
+        /// <summary>
+        /// User collection of albums
+        /// </summary>
+        public IEnumerable<Album> Albums { get; set; } = new HashSet<Album>();
     }
 }

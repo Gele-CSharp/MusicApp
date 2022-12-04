@@ -6,6 +6,10 @@ namespace MusicApp.Models
     public class RegisterViewModel
     {
         [Required]
+        [StringLength(UsernameMaxLength, MinimumLength = UsernameMinLength)]
+        public string Username { get; set; } = null!;
+
+        [Required]
         [StringLength(EmailMaxLength, MinimumLength = EmailMinLength)]
         [EmailAddress]
         public string Email { get; set; } = null!;

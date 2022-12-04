@@ -22,6 +22,9 @@ public static class DataConstants
 
     public static class User
     {
+        public const int UsernameMinLength = 2;
+        public const int UsernameMaxLength = 50;
+
         public const int UserFirstNameMinLength = 2;
         public const int UserFirstNameMaxLength = 50;
 
