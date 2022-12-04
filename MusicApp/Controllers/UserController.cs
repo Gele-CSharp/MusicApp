@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MusicApp.Controllers;
 using MusicApp.Infrastructure.Data.Entities;
 using MusicApp.Models;
 using static MusicApp.Infrastructure.Data.ErrorMessages;
 
 namespace Library.Controllers
 {
-    [Authorize]
-    public class UserController : Controller
+    public class UserController : BaseController
     {
         private readonly UserManager<User> userManager;
 
@@ -80,11 +80,12 @@ namespace Library.Controllers
 
             if (user != null)
             {
+                await userManager.AddClaimAsync(user, new System.Security.Claims.Claim("firstName", user.FirstName ?? user.Email));
                 var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("All", "Books");
+                    return RedirectToAction("All", "Albums");
                 }
             }
 
