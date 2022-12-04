@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace MusicApp.Infrastructure.Common;
+namespace HouseRentingSystem.Infrastructure.Data.Common
 {
     /// <summary>
     /// Abstraction of repository access methods
