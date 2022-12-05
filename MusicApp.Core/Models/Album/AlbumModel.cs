@@ -31,5 +31,10 @@ namespace MusicApp.Core.Models.Album
         /// Music genre
         /// </summary>
         public Genre Genre { get; set; } = null!;
+
+        /// <summary>
+        /// Release year
+        /// </summary>
+        public int Year { get; set; }
     }
 }

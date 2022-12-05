@@ -1,14 +1,14 @@
-﻿using MusicApp.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MusicApp.Core.Models.Album;
+using MusicApp.Infrastructure.Data.Entities;
 
 namespace MusicApp.Core.Contracts
 {
     public interface IAlbumService
     {
-        Task<IEnumerable<HomepageAlbumModel>> GetLastThreeAlbums();
+        Task<IEnumerable<AlbumModel>> GetLastThreeAlbums();
+
+        Task<AllAlbumsModel> GetAllAlbums(string? genre = null, string? searchTerm = null, AlbumsSorting sorting = AlbumsSorting.Newest, int currentPage = 1, int albumsPerPage = 1 );
+
+        Task<IEnumerable<Genre>> GetGenres();
     }
 }

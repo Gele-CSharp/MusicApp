@@ -1,4 +1,6 @@
-﻿namespace MusicApp.Core.Models.Album
+﻿using MusicApp.Infrastructure.Data.Entities;
+
+namespace MusicApp.Core.Models.Album
 {
     /// <summary>
     /// All albums model
@@ -8,7 +10,7 @@
         /// <summary>
         /// Albums per page
         /// </summary>
-        public int AlbumsPerPage { get; set; } 
+        public const int AlbumsPerPage = 3;
 
         /// <summary>
         /// Album genre
@@ -38,7 +40,7 @@
         /// <summary>
         /// Genres collection
         /// </summary>
-        public IEnumerable<string> Genres { get; set; } = Enumerable.Empty<string>();
+        public IEnumerable<Genre> Genres { get; set; } = Enumerable.Empty<Genre>();
 
         /// <summary>
         /// Albums collection
