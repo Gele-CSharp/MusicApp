@@ -22,6 +22,8 @@ builder.Services.AddDefaultIdentity<User>(options =>
     .AddEntityFrameworkStores<MusicAppDbContext>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddAplicationServices();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
