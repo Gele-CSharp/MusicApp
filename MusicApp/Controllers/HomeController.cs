@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MusicApp.Core.Contracts;
 using MusicApp.Models;
 using System.Diagnostics;
 
@@ -7,17 +8,21 @@ namespace MusicApp.Controllers
 {
     public class HomeController : BaseController
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomeController> logger;
+        private readonly IAlbumService albumService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> _logger, IAlbumService _albumService)
         {
-            _logger = logger;
+            logger = _logger;
+            albumService = _albumService;
         }
 
         [AllowAnonymous]
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var model = await albumService.GetLastThreeAlbums();
+            return View(model);
         }
 
         [AllowAnonymous]
