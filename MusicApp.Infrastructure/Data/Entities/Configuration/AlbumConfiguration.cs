@@ -121,8 +121,8 @@ namespace MusicApp.Infrastructure.Data.Entities.Configuration
             album = new Album()
             {
                 Id = 9,
-                Title = "Bob Dylan",
-                Artist = "Blood on the Tracks",
+                Title = "Blood on the Tracks",
+                Artist = "Bob Dylan",
                 ImageUrl = "https://www.rollingstone.com/wp-content/uploads/2020/09/R1344-009-Bob-Dylan-BLOOD-ON-THE-TRACKS.jpg?w=1000",
                 GenreId = 3,
                 Year = 1975,
@@ -134,8 +134,8 @@ namespace MusicApp.Infrastructure.Data.Entities.Configuration
             album = new Album()
             {
                 Id = 10,
-                Title = "Lauryn Hill",
-                Artist = "The Miseducation of Lauryn Hill",
+                Title = "The Miseducation of Lauryn Hill",
+                Artist = "Lauryn Hill",
                 ImageUrl = "https://www.rollingstone.com/wp-content/uploads/2020/09/R1344-010-Lauryn-Hill-MISEDUCATION.jpg?w=1000",
                 GenreId = 4,
                 Year = 1998,
