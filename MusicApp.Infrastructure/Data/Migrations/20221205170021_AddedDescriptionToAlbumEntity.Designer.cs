@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicApp.Data;
 
@@ -11,9 +12,10 @@ using MusicApp.Data;
 namespace MusicApp.Data.Migrations
 {
     [DbContext(typeof(MusicAppDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221205170021_AddedDescriptionToAlbumEntity")]
+    partial class AddedDescriptionToAlbumEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -173,8 +175,7 @@ namespace MusicApp.Data.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("GenreId")
                         .HasColumnType("int");
@@ -214,7 +215,6 @@ namespace MusicApp.Data.Migrations
                         {
                             Id = 1,
                             Artist = "Marvin Gaye",
-                            Description = "Marvin Gaye’s masterpiece began as a reaction to police brutality. In May 1969, Renaldo “Obie” Benson, the Four Tops’ bass singer, watched TV coverage of hundreds of club-wielding cops breaking up the People’s Park, a protest hub in Berkeley. Aghast at the violence, Benson began to write a song with Motown lyricist Al Cleveland, trying to capture the confusion and pain of the times.",
                             GenreId = 4,
                             ImageUrl = "https://www.rollingstone.com/wp-content/uploads/2020/09/R1344-001-Marvin-Gaye-WHATS-GOING-ON.jpg?w=1000",
                             IsActive = true,
@@ -227,7 +227,6 @@ namespace MusicApp.Data.Migrations
                         {
                             Id = 2,
                             Artist = "The Beach Boys",
-                            Description = "“Who’s gonna hear this shit?” Beach Boys singer Mike Love asked the band’s resident genius, Brian Wilson, in 1966, as Wilson played him the new songs he was working on. “The ears of a dog?” Confronted with his bandmate’s contempt, Wilson made lemonade of lemons. “Ironically,” he observed, “Mike’s barb inspired the album’s title.”",
                             GenreId = 3,
                             ImageUrl = "https://www.rollingstone.com/wp-content/uploads/2020/09/R1344-002-Beach-Boys-PET-SOUNDS-update.jpg?w=1000",
                             IsActive = true,
@@ -240,7 +239,6 @@ namespace MusicApp.Data.Migrations
                         {
                             Id = 3,
                             Artist = "Joni Mitchell",
-                            Description = "In 1971, Joni Mitchell represented the West Coast feminine ideal — celebrated by Robert Plant as “a girl out there with love in her eyes and flowers in her hair” on Led Zeppelin’s “Goin’ to California.” It was a status that Mitchell hadn’t asked for and did not want: “I went, ‘Oh, my God, a lot of people are listening to me,’” she recalled in 2013. “’They better find out who they’re worshiping. Let’s see if they can take it. Let’s get real.’ So I wrote Blue.”",
                             GenreId = 1,
                             ImageUrl = "https://www.rollingstone.com/wp-content/uploads/2020/09/R1344-003-JoniMitchell-BLUE-HR.jpg?w=1000",
                             IsActive = true,
@@ -253,7 +251,6 @@ namespace MusicApp.Data.Migrations
                         {
                             Id = 4,
                             Artist = "Stevie Wonder",
-                            Description = "Months before the recording sessions for Songs in the Key of Life ended, the musicians in Stevie Wonder’s band had T-shirts made up that proclaimed, “We’re almost finished.” It was the stock answer to casual fans and Motown executives and everybody who’d fallen in love with Wonder’s early-Seventies gems – 1972’s Talking Book, 1973’s Innervisions, and 1974’s Fulfillingness’ First Finale – and who had been waiting two years for the next chapter.",
                             GenreId = 4,
                             ImageUrl = "https://www.rollingstone.com/wp-content/uploads/2020/09/R1344-004-Stevie-Wonder-SONGS-IN-THE-KEY-OF-LIFE.jpg?w=1000",
                             IsActive = true,
@@ -266,7 +263,6 @@ namespace MusicApp.Data.Migrations
                         {
                             Id = 5,
                             Artist = "The Beatles",
-                            Description = "“It was a very happy record,” said producer George Martin, describing this album in The Beatles Anthology. “I guess it was happy because everybody thought it was going to be the last.” Indeed, Abbey Road — recorded in two months during the summer of 1969 — almost never got made at all. That January, the Beatles were on the verge of a breakup, exhausted and angry with one another after the disastrous sessions for the aborted Get Back LP, later salvaged as Let It Be [see No. 342].",
                             GenreId = 4,
                             ImageUrl = "https://www.rollingstone.com/wp-content/uploads/2020/09/R1344-005-Beatles-ABBEY-ROAD.jpg?w=1000",
                             IsActive = true,
@@ -279,7 +275,6 @@ namespace MusicApp.Data.Migrations
                         {
                             Id = 6,
                             Artist = "Nirvana",
-                            Description = "An overnight-success story of the 1990s, Nirvana’s second album and its totemic ﬁrst single, “Smells Like Teen Spirit,” shot up from the Northwest underground — the nascent grunge scene in Seattle — to kick Michael Jackson’s Dangerous off the top of the Billboard charts and blow hair metal off the map. Few albums have had such an overpowering impact on a generation — a nation of teens suddenly turned punk — and such a catastrophic effect on its main creator. ",
                             GenreId = 3,
                             ImageUrl = "https://www.rollingstone.com/wp-content/uploads/2020/09/R1344-006-Nirvana-NEVERMIND-HR.jpg?w=1000",
                             IsActive = true,
@@ -292,7 +287,6 @@ namespace MusicApp.Data.Migrations
                         {
                             Id = 7,
                             Artist = "Fleetwood Mac",
-                            Description = "With Rumours, Fleetwood Mac turned private turmoil into gleaming, melodic public art. The band’s two couples — bassist John McVie and singer-keyboard player Christine McVie, who were married; guitarist Lindsey Buckingham and vocalist Stevie Nicks, who were not — broke up during the protracted sessions for the album.",
                             GenreId = 3,
                             ImageUrl = "https://www.rollingstone.com/wp-content/uploads/2020/09/R1344-007-Fleetwood-Mac-RUMOURS.jpg?w=1000",
                             IsActive = true,
@@ -305,7 +299,6 @@ namespace MusicApp.Data.Migrations
                         {
                             Id = 8,
                             Artist = "Prince and the Revolution",
-                            Description = "“I think Purple Rain is the most avant-garde, ‘purple’ thing I’ve ever done,” Prince told Ebony in 1986. He was still a rising star with only a couple of hits when he got the audacious idea to make a movie based on his life, and make his next LP the movie’s soundtrack. When it was released in 1984, he became the first artist to have the Number One song, album, and movie in North America. ",
                             GenreId = 1,
                             ImageUrl = "https://www.rollingstone.com/wp-content/uploads/2020/09/R1344-008-Prince-PURPLE-RAIN.jpg?w=1000",
                             IsActive = true,
@@ -318,7 +311,6 @@ namespace MusicApp.Data.Migrations
                         {
                             Id = 9,
                             Artist = "Bob Dylan",
-                            Description = "Bob Dylan once introduced this album’s opening song, “Tangled Up in Blue,” onstage as taking him 10 years to live and two years to write. It was, for him, a pointed reference to the personal crisis — the collapse of his marriage to Sara Lowndes — that at least partly inspired this album, Dylan’s best of the 1970s. ",
                             GenreId = 3,
                             ImageUrl = "https://www.rollingstone.com/wp-content/uploads/2020/09/R1344-009-Bob-Dylan-BLOOD-ON-THE-TRACKS.jpg?w=1000",
                             IsActive = true,
@@ -331,7 +323,6 @@ namespace MusicApp.Data.Migrations
                         {
                             Id = 10,
                             Artist = "Lauryn Hill",
-                            Description = "“This is a very sexist industry,” Lauryn Hill told Essence magazine in 1998. “They’ll never throw the ‘genius’ title to a sister.” Though already a star as co-leader of the Fugees, with Wyclef Jean, she was hungry to express her own vision. “I wanted to write songs that lyrically move me and have the integrity of reggae and the knock of hip-hop and the instrumentation of classic soul,” the singer said of her debut album.",
                             GenreId = 4,
                             ImageUrl = "https://www.rollingstone.com/wp-content/uploads/2020/09/R1344-010-Lauryn-Hill-MISEDUCATION.jpg?w=1000",
                             IsActive = true,
@@ -542,7 +533,7 @@ namespace MusicApp.Data.Migrations
                         {
                             Id = "42c8f95a-e61d-445a-bb23-67b2fd181c87",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b4ca8f30-c5eb-47e7-aa86-d637438e1046",
+                            ConcurrencyStamp = "ea112923-aba0-4df6-a681-c502310c4d04",
                             Email = "user@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Pesho",
@@ -550,9 +541,9 @@ namespace MusicApp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@MAIL.COM",
                             NormalizedUserName = "USER@MAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPSGz9z68px+821q8ovSW9rINtNOx8SMXYj2dwOisPeKeQv2YviuO4K7Eiw3fMc0DQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJcRxbbN/MyBGp9tXyKZPv14gJkszVT2UzLMUMWernsfnkgK2FfWMHzKEiUEXnbWxg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "142ff0b1-0364-4fd5-bf65-ff8f9e87dac9",
+                            SecurityStamp = "474373cf-7642-4684-b214-e1ab0f5ed2ea",
                             TwoFactorEnabled = false,
                             UserName = "user@mail.com"
                         },
@@ -560,7 +551,7 @@ namespace MusicApp.Data.Migrations
                         {
                             Id = "43a3b5b6-a7e5-4949-a539-d7029f18f746",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "46507844-25ff-47d8-943c-201060913cb4",
+                            ConcurrencyStamp = "ea7c6890-25eb-484d-9dee-b9f0e717590b",
                             Email = "admin@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Ivan",
@@ -568,9 +559,9 @@ namespace MusicApp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.COM",
                             NormalizedUserName = "ADMIN@MAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOPVwXA9SU8jrNHWTKqSJXKdYKr9i+zJDQlUtjk0fhy3ut8zUxlgOCpNPVd1Fkjf5g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGLDoooWfTLBDnfNIoN8zhqD6Br3WSCCIqkZ9iF6qBbmWlQHuVmyG7QBRBTCKLqNyA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "edcc6e2c-ae15-47a3-aae7-cc11e194d083",
+                            SecurityStamp = "c6793764-4918-445e-9a0e-e25b09f51ca7",
                             TwoFactorEnabled = false,
                             UserName = "admin@mail.com"
                         });
