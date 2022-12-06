@@ -30,6 +30,12 @@ namespace MusicApp.Infrastructure.Data.Entities
         public string Artist { get; set; } = null!;
 
         /// <summary>
+        /// Description
+        /// </summary>
+        [StringLength(ArtistNameMaxLength)]
+        public string? Description { get; set; } 
+
+        /// <summary>
         /// Album cover image
         /// </summary>
         [Required]
