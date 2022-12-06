@@ -9,6 +9,9 @@ public static class DataConstants
 
         public const int ArtistNameMinLength = 1;
         public const int ArtistNameMaxLength = 50;
+
+        public const int DescriptionMinLength = 20;
+        public const int DescriptionMaxLength = 500;
     }
 
     public static class Comment
