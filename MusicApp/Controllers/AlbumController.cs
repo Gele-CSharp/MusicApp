@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MusicApp.Core.Contracts;
 using MusicApp.Core.Models.Album;
+using MusicApp.Core.Models.Comments;
 
 namespace MusicApp.Controllers
 {
@@ -24,8 +25,31 @@ namespace MusicApp.Controllers
             query.TotalAlbumsCount = result.TotalAlbumsCount;
             query.Genres = await albumService.GetGenres();
             query.Albums = result.Albums;
-
+            
             return View(query);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> Details(int albumId)
+        {
+            var model = await albumService.GetAlbumDetails(albumId);
+
+            return View(model);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public async Task<IActionResult> Comment(CommentModel model, int albumId)
+        {
+            var userId = User.Id();
+
+            if (model.Comment != null)
+            {
+                await albumService.AddComent(albumId, userId, model.Comment);
+            }
+
+            return RedirectToAction(nameof(Details), new { albumId });
         }
     }
 }
