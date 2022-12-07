@@ -30,7 +30,6 @@ namespace MusicApp.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet]
         public async Task<IActionResult> Details(int albumId)
         {
             var model = await albumService.GetAlbumDetails(albumId);
@@ -38,7 +37,6 @@ namespace MusicApp.Controllers
             return View(model);
         }
 
-        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Comment(CommentModel model, int albumId)
         {
