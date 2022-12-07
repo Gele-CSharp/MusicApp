@@ -62,7 +62,7 @@ namespace MusicApp.Infrastructure.Data.Entities
         /// <summary>
         /// Comments about current album
         /// </summary>
-        public virtual IEnumerable<Comment> Comments { get; set; } = new HashSet<Comment>();
+        public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
 
         /// <summary>
         /// Number of likes for current album 
