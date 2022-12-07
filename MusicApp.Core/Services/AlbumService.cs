@@ -1,7 +1,9 @@
 ﻿using HouseRentingSystem.Infrastructure.Data.Common;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MusicApp.Core.Contracts;
 using MusicApp.Core.Models.Album;
+using MusicApp.Core.Models.Comments;
 using MusicApp.Infrastructure.Data.Entities;
 
 namespace MusicApp.Core.Services
@@ -13,6 +15,47 @@ namespace MusicApp.Core.Services
         public AlbumService(IRepository _repository)
         {
             reopository = _repository;
+        }
+
+        public async Task AddComent(int albumId, string userId, Comment comment)
+        {
+            var album = await reopository.GetByIdAsync<Album>(albumId);
+            comment.UserId = userId;
+            comment.AlbumId = albumId;
+            album.Comments.Add(comment);
+            await reopository.SaveChangesAsync();
+        }
+
+        public async Task<AlbumDetailsModel> GetAlbumDetails(int albumId)
+        {
+            var album = await reopository
+                .AllReadonly<Album>()
+                .Where(a => a.IsActive && a.Id == albumId)
+                .Include(a => a.User)
+                .Include(a => a.Genre)
+                .FirstAsync();
+
+            var comments = await GetComments(albumId);
+
+            return new AlbumDetailsModel()
+            {
+                Id = album.Id,
+                Title = album.Title,
+                Artist = album.Artist,
+                ImageUrl = album.ImageUrl,
+                Description = album.Description,
+                GenreId = album.GenreId,
+                Genre = album.Genre,
+                UserId = album.UserId,
+                User = album.User,
+                Year = album.Year,
+                Likes = album.Likes,
+                Comments = new CommentModel()
+                {
+                    AlbumId = albumId,
+                    Comments = comments
+                }
+            };
         }
 
         public async Task<IEnumerable<AlbumModel>> GetAllAlbums()
@@ -78,6 +121,14 @@ namespace MusicApp.Core.Services
             result.TotalAlbumsCount = await albums.CountAsync();
 
             return result;
+        }
+
+        public async Task<ICollection<Comment>> GetComments(int albumId)
+        {
+            return await reopository
+                .AllReadonly<Comment>()
+                .Where(c => c.AlbumId == albumId)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Genre>> GetGenres()
