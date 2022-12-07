@@ -1,0 +1,90 @@
+﻿@model AlbumDetailsModel
+
+@{
+    ViewBag.Title = "Album Details";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="container" style="display:inline">
+    <div class="row">
+        <div class="col-4">
+            <img class="card-img-top" style="width: 20rem;"
+                 src="@Model.ImageUrl" alt="Album Image">
+        </div>
+        <div class="card col-8 border-0">
+            <p style="font-size:25px;"><u>@Model.Title</u></p>
+            <p>Artist: <b>@Model.Artist</b></p>
+            <p>Albun info:</p>
+            <p>@Model.Description</p>
+            <p>Genre: <b>@Model.Genre.Name</b></p>
+            <p>Year: <b>@Model.Year</b></p>
+            @*<p><i>(@(Model.IsRented ? "Rented" : "Not Rented"))</i></p>
+            <div class="form-inline">
+                @if (this.User?.Identity?.IsAuthenticated ?? false)
+                {
+                    <a class="btn btn-warning" asp-controller="Houses" asp-action="Edit"
+                       asp-route-id="@Model.Id">Edit</a>
+                    <a class="ml-2 btn btn-danger" asp-controller="Houses" asp-action="Delete"
+                       asp-route-id="@Model.Id">Delete</a>
+                    @if (!Model.IsRented)
+                    {
+                        <form class="ml-2" asp-controller="Houses"
+                              asp-action="Rent" asp-route-id="@Model.Id" method="post">
+                            <input class="btn btn-primary" type="submit" value="Rent" />
+                        </form>
+                    }
+                    else
+                    {
+                        <form class="ml-2" asp-controller="Houses" asp-action="Leave"
+                              asp-route-id="@Model.Id" method="post">
+                            <input class="btn btn-primary" type="submit" value="Leave" />
+                        </form>
+                    }
+                }
+            </div>
+            <p></p>
+            @*<div class="details-comments">
+                    <h2>Comments:</h2>
+                    <ul>
+                        <!-- list all comments for current game (If any) -->
+                        <li class="list">
+                            <p>Content: I rate this one quite highly.</p>
+                        </li>
+                        <li class="comment">
+                            <p>Content: The best game.</p>
+                        </li>
+                    </ul>
+                    <!-- Display paragraph: If there are no games in the database -->
+                    <p class="no-comment">No comments.</p>
+                </div>
+            <p></p>
+
+            <form asp-controller="Chat" asp-action="Send" method="post">
+                <div class="form-group card-header row">
+                    <div class="col-12">
+                        <h5>Send a new message</h5>
+                        <div class="col-8">
+                            <label>Message:</label>
+                            <textarea asp-for="CurrentMessage.MessageText" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="col-4">
+                            <label>Sender Name:</label>
+                            <input asp-for="CurrentMessage.Sender" class="form-control" />
+                            <input class="btn btn-primary mt-2 float-lg-right" type="submit" value="Send" />
+                        </div>
+                    </div>
+                </div>
+            </form>*@
+            <partial name="_CommentPartial" model=@Model.Comments/>
+            @*<div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Agent Info</h5>
+                    <p class="card-text">Email:  @Model.Agent.Email</p>
+                    <p class="card-text">Phone Number: @Model.Agent.PhoneNumber</p>
+                </div>
+            </div>*@
+        </div>
+    </div>
+</div>
