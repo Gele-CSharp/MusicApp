@@ -344,13 +344,10 @@ namespace MusicApp.Data.Migrations
 
             modelBuilder.Entity("MusicApp.Infrastructure.Data.Entities.Comment", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("AlbumId")
+                    b.Property<int>("AlbumId")
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
@@ -358,15 +355,12 @@ namespace MusicApp.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "AlbumId");
 
                     b.HasIndex("AlbumId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
                 });
@@ -542,7 +536,7 @@ namespace MusicApp.Data.Migrations
                         {
                             Id = "42c8f95a-e61d-445a-bb23-67b2fd181c87",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b4ca8f30-c5eb-47e7-aa86-d637438e1046",
+                            ConcurrencyStamp = "5f20ec45-d5a2-47ba-acdc-4b9a03a6a5bd",
                             Email = "user@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Pesho",
@@ -550,9 +544,9 @@ namespace MusicApp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@MAIL.COM",
                             NormalizedUserName = "USER@MAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPSGz9z68px+821q8ovSW9rINtNOx8SMXYj2dwOisPeKeQv2YviuO4K7Eiw3fMc0DQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMtBK0xSVLIKV65IXNlvYTx7+fpJvy+SANDSdQZ74fSjRWNTrH7yirOth0F4SIWyjA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "142ff0b1-0364-4fd5-bf65-ff8f9e87dac9",
+                            SecurityStamp = "d4819d3e-833c-4481-b323-86aac51a1c35",
                             TwoFactorEnabled = false,
                             UserName = "user@mail.com"
                         },
@@ -560,7 +554,7 @@ namespace MusicApp.Data.Migrations
                         {
                             Id = "43a3b5b6-a7e5-4949-a539-d7029f18f746",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "46507844-25ff-47d8-943c-201060913cb4",
+                            ConcurrencyStamp = "6775d3d6-e98f-49cc-bbe2-99fac1a11792",
                             Email = "admin@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Ivan",
@@ -568,9 +562,9 @@ namespace MusicApp.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.COM",
                             NormalizedUserName = "ADMIN@MAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOPVwXA9SU8jrNHWTKqSJXKdYKr9i+zJDQlUtjk0fhy3ut8zUxlgOCpNPVd1Fkjf5g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKgmMP6FiickGb+OqYE8VZZe3fZnnvpvPIwYXpqccR9hIeX+/xQrLLKthsrHOXLxwg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "edcc6e2c-ae15-47a3-aae7-cc11e194d083",
+                            SecurityStamp = "a27a08e6-f08b-4729-bde0-f0dc22b4c07a",
                             TwoFactorEnabled = false,
                             UserName = "admin@mail.com"
                         });
@@ -648,15 +642,19 @@ namespace MusicApp.Data.Migrations
 
             modelBuilder.Entity("MusicApp.Infrastructure.Data.Entities.Comment", b =>
                 {
-                    b.HasOne("MusicApp.Infrastructure.Data.Entities.Album", null)
+                    b.HasOne("MusicApp.Infrastructure.Data.Entities.Album", "Album")
                         .WithMany("Comments")
-                        .HasForeignKey("AlbumId");
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("MusicApp.Infrastructure.Data.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Album");
 
                     b.Navigation("User");
                 });
