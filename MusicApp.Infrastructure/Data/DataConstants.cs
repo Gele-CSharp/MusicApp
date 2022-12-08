@@ -12,6 +12,9 @@ public static class DataConstants
 
         public const int DescriptionMinLength = 20;
         public const int DescriptionMaxLength = 500;
+
+        public const int ReleaseYearMinValue = 1948;
+        public const int ReleaseYearMaxValue = 2023;
     }
 
     public static class Comment
