@@ -51,11 +51,6 @@ namespace MusicApp.Core.Models.Album
         public CommentModel? Comments { get; set; }
 
         /// <summary>
-        /// Comments about current album
-        /// </summary>
-       // public virtual IEnumerable<Comment> Comments { get; set; } = new HashSet<Comment>();
-
-        /// <summary>
         /// Number of likes for current album 
         /// </summary>
         public int Likes { get; set; } = 0;
