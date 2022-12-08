@@ -30,7 +30,7 @@ namespace MusicApp.Core.Services
                 UserId = userId
             };
 
-            await repository.AddAsync(album);
+            await repository.AddAsync<Album>(album);
             await repository.SaveChangesAsync();
             return album.Id;
         }
@@ -148,6 +148,19 @@ namespace MusicApp.Core.Services
                 .Where(c => c.AlbumId == albumId)
                 .Include(c=> c.User)
                 .ToListAsync();
+        }
+
+        public async Task<IEnumerable<AlbumGenreModel>> GetGenreModels()
+        {
+            var genres = await GetGenres();
+            var genreModels = genres
+                .Select(g => new AlbumGenreModel()
+                {
+                    Id = g.Id,
+                    Name = g.Name
+                }).ToList();
+
+            return genreModels;
         }
 
         public async Task<IEnumerable<Genre>> GetGenres()
