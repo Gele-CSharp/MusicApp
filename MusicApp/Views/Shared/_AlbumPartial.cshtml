@@ -10,7 +10,7 @@
             <h6>Artist: <b>@Model.Artist</b></h6>
             <h6>Release year: <b>@Model.Year</b></h6>
             <br />
-            <a asp-controller="Album" asp-action="Details" asp-route-id="@Model.Id"
+            <a asp-controller="Album" asp-action="Details" asp-route-albumId="@Model.Id"
                asp-route-information="@Model.GetInformation()"
                class="btn btn-success">Details</a>
             @if (this.User?.Identity?.IsAuthenticated ?? false)
