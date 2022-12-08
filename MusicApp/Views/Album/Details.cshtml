@@ -22,7 +22,7 @@
             <p>Year: <b>@Model.Year</b></p>
             @*<p><i>(@(Model.IsRented ? "Rented" : "Not Rented"))</i></p>*@
             <div class="form-inline">
-                @if (this.User?.Identity?.IsAuthenticated ?? false)
+                @if ((this.User?.Identity?.IsAuthenticated ?? false) && User.Id() == Model.UserId)
                 {
                     <a class="btn btn-warning" asp-controller="Album" asp-action="Edit"
                        asp-route-id="@Model.Id">Edit</a>
