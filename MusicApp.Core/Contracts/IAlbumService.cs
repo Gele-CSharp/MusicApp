@@ -11,6 +11,8 @@ namespace MusicApp.Core.Contracts
 
         Task<IEnumerable<Genre>> GetGenres();
 
+        Task<IEnumerable<AlbumGenreModel>> GetGenreModels();
+
         Task<AlbumDetailsModel> GetAlbumDetails(int albumId);
 
         Task<ICollection<Comment>> GetComments(int albumId);
