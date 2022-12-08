@@ -13,12 +13,12 @@ namespace MusicApp.Core.Models.Album
         public int Id { get; set; }
 
         /// <summary>
-        /// Alum title
+        /// Album title
         /// </summary>
         public string Title { get; set; } = null!;
 
         /// <summary>
-        /// Artist 
+        /// Album Performer 
         /// </summary>
         public string Artist { get; set; } = null!;
 
