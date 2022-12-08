@@ -141,6 +141,23 @@ namespace MusicApp.Core.Services
             return result;
         }
 
+        public async Task<IEnumerable<AlbumModel>> GetAllUserAlbums(string userId)
+        {
+            return await repository
+                .AllReadonly<Album>()
+                .Where(a => a.UserId == userId && a.IsActive)
+                .Select(a=> new AlbumModel() 
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Artist = a.Artist,
+                    Genre = a.Genre,
+                    ImageUrl = a.ImageUrl,
+                    Year = a.Year
+                })
+                .ToListAsync();
+        }
+
         public async Task<ICollection<Comment>> GetComments(int albumId)
         {
             return await repository
@@ -172,23 +189,27 @@ namespace MusicApp.Core.Services
             return genres;
         }
 
-        public async Task<IEnumerable<AlbumModel>> GetLastThreeAlbums()
+        public async Task<IEnumerable<HomepageAlbumModel>> GetLastThreeAlbums()
         {
             var albums = await repository
                 .AllReadonly<Album>()
                 .Where(a => a.IsActive)
                 .OrderByDescending(a => a.Id)
                 .Take(3)
-                .Select(a=> new AlbumModel() 
+                .Select(a=> new HomepageAlbumModel() 
                 {
                     Id = a.Id,
                     Title = a.Title,
-                    Artist = a.Artist,
                     ImageUrl = a.ImageUrl
                 })
                 .ToListAsync();
 
             return albums;
+        }
+
+        public Task<bool> IsAlbumAddedByUser()
+        {
+            throw new NotImplementedException();
         }
     }
 }
