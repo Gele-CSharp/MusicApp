@@ -16,5 +16,7 @@ namespace MusicApp.Core.Contracts
         Task<ICollection<Comment>> GetComments(int albumId);
 
         Task AddComent(int albumId, string userId, Comment comment);
+
+        Task<int> AddAlbum(AddAlbumModel model, string userId);
     }
 }
