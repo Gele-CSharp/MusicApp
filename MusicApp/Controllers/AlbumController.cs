@@ -77,5 +77,13 @@ namespace MusicApp.Controllers
 
             return RedirectToAction(nameof(Details), new {albumId});
         }
+
+        public async Task<IActionResult> Mine()
+        {
+            var userId = User.Id();
+            var model = await albumService.GetAllUserAlbums(userId);
+
+            return View(model);
+        }
     }
 }
