@@ -32,7 +32,7 @@ namespace MusicApp.Infrastructure.Data.Entities
         /// <summary>
         /// Description
         /// </summary>
-        [StringLength(ArtistNameMaxLength)]
+        [StringLength(DescriptionMaxLength)]
         public string? Description { get; set; } 
 
         /// <summary>
@@ -50,8 +50,7 @@ namespace MusicApp.Infrastructure.Data.Entities
         /// <summary>
         /// Music genre
         /// </summary>
-        [Required]
-        public Genre Genre { get; set; } = null!;
+        public virtual Genre Genre { get; set; } = null!;
 
         /// <summary>
         /// Album release year
