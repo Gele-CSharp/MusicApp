@@ -30,6 +30,12 @@ namespace MusicApp.Core.Models.Album
         public string ImageUrl { get; set; } = null!;
 
         /// <summary>
+        /// Album information
+        /// </summary>
+        [StringLength(DescriptionMaxLength, MinimumLength = DescriptionMinLength)]
+        public string? Description { get; set; } 
+
+        /// <summary>
         /// Music genre identifier
         /// </summary>
         [Display(Name = "Genre")]
