@@ -128,6 +128,7 @@ namespace MusicApp.Core.Services
             return await reopository
                 .AllReadonly<Comment>()
                 .Where(c => c.AlbumId == albumId)
+                .Include(c=> c.User)
                 .ToListAsync();
         }
 
