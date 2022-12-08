@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AlbumModel>
+﻿@model IEnumerable<HomepageAlbumModel>
 
 @{
     ViewData["Title"] = "Home Page";
@@ -17,7 +17,7 @@
             @if (this.User?.Identity?.IsAuthenticated ?? false)
             {
                 <a asp-controller="Albums" asp-action="Add" class="btn btn-primary btn-lg"
-           role="button">Add Album</a>
+                role="button">Add Album</a>
             }
         </p>
     </div>
@@ -36,7 +36,7 @@
                 <div class="carousel-caption d-none d-md-block">
                     <h5>
                         <a class="btn btn-primary" asp-controller="Album" asp-action="Details"
-                       asp-route-id="@album.Id">Details</a>
+                       asp-route-albumId="@album.Id">Details</a>
                     </h5>
                 </div>
             </div>
@@ -50,7 +50,6 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
     </button>
-</div>
 </div>
 <div class="mb-5"></div>
 <div class="row">
