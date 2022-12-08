@@ -10,25 +10,43 @@ namespace MusicApp.Core.Services
 {
     public class AlbumService : IAlbumService
     {
-        private readonly IRepository reopository;
+        private readonly IRepository repository;
 
         public AlbumService(IRepository _repository)
         {
-            reopository = _repository;
+            repository = _repository;
+        }
+
+        public async Task<int> AddAlbum(AddAlbumModel model, string userId)
+        {
+            var album = new Album()
+            {
+                Title = model.Title,
+                Artist = model.Artist,
+                ImageUrl = model.ImageUrl,
+                Description = model.Description,
+                GenreId = model.GenreId,
+                Year = model.Year,
+                UserId = userId
+            };
+
+            await repository.AddAsync(album);
+            await repository.SaveChangesAsync();
+            return album.Id;
         }
 
         public async Task AddComent(int albumId, string userId, Comment comment)
         {
-            var album = await reopository.GetByIdAsync<Album>(albumId);
+            var album = await repository.GetByIdAsync<Album>(albumId);
             comment.UserId = userId;
             comment.AlbumId = albumId;
             album.Comments.Add(comment);
-            await reopository.SaveChangesAsync();
+            await repository.SaveChangesAsync();
         }
 
         public async Task<AlbumDetailsModel> GetAlbumDetails(int albumId)
         {
-            var album = await reopository
+            var album = await repository
                 .AllReadonly<Album>()
                 .Where(a => a.IsActive && a.Id == albumId)
                 .Include(a => a.User)
@@ -60,7 +78,7 @@ namespace MusicApp.Core.Services
 
         public async Task<IEnumerable<AlbumModel>> GetAllAlbums()
         {
-            var albums = await reopository
+            var albums = await repository
                 .AllReadonly<Album>()
                 .Where(a => a.IsActive)
                 .OrderByDescending(a => a.Id)
@@ -78,7 +96,7 @@ namespace MusicApp.Core.Services
 
         public async Task<AllAlbumsModel> GetAllAlbums(string? genre = null, string? searchTerm = null, AlbumsSorting sorting = AlbumsSorting.Newest, int currentPage = 1, int albumsPerPage = 1)
         {
-            var albums = reopository
+            var albums = repository
                 .AllReadonly<Album>()
                 .Where(a => a.IsActive);
 
@@ -125,7 +143,7 @@ namespace MusicApp.Core.Services
 
         public async Task<ICollection<Comment>> GetComments(int albumId)
         {
-            return await reopository
+            return await repository
                 .AllReadonly<Comment>()
                 .Where(c => c.AlbumId == albumId)
                 .Include(c=> c.User)
@@ -134,7 +152,7 @@ namespace MusicApp.Core.Services
 
         public async Task<IEnumerable<Genre>> GetGenres()
         {
-            var genres = await reopository
+            var genres = await repository
                 .AllReadonly<Genre>()
                 .ToListAsync();
 
@@ -143,7 +161,7 @@ namespace MusicApp.Core.Services
 
         public async Task<IEnumerable<AlbumModel>> GetLastThreeAlbums()
         {
-            var albums = await reopository
+            var albums = await repository
                 .AllReadonly<Album>()
                 .Where(a => a.IsActive)
                 .OrderByDescending(a => a.Id)
