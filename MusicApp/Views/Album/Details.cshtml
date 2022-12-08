@@ -20,15 +20,15 @@
             <p>@Model.Description</p>
             <p>Genre: <b>@Model.Genre.Name</b></p>
             <p>Year: <b>@Model.Year</b></p>
-            @*<p><i>(@(Model.IsRented ? "Rented" : "Not Rented"))</i></p>
+            @*<p><i>(@(Model.IsRented ? "Rented" : "Not Rented"))</i></p>*@
             <div class="form-inline">
                 @if (this.User?.Identity?.IsAuthenticated ?? false)
                 {
-                    <a class="btn btn-warning" asp-controller="Houses" asp-action="Edit"
+                    <a class="btn btn-warning" asp-controller="Album" asp-action="Edit"
                        asp-route-id="@Model.Id">Edit</a>
-                    <a class="ml-2 btn btn-danger" asp-controller="Houses" asp-action="Delete"
+                    <a class="ml-2 btn btn-danger" asp-controller="Album" asp-action="Delete"
                        asp-route-id="@Model.Id">Delete</a>
-                    @if (!Model.IsRented)
+                    @*@if (!Model.IsRented)
                     {
                         <form class="ml-2" asp-controller="Houses"
                               asp-action="Rent" asp-route-id="@Model.Id" method="post">
@@ -41,7 +41,7 @@
                               asp-route-id="@Model.Id" method="post">
                             <input class="btn btn-primary" type="submit" value="Leave" />
                         </form>
-                    }
+                    }*@
                 }
             </div>
             <p></p>
@@ -76,7 +76,7 @@
                         </div>
                     </div>
                 </div>
-            </form>*@
+            </form>
             <partial name="_CommentPartial" model=@Model.Comments/>
             @*<div class="card" style="width: 18rem;">
                 <div class="card-body">
@@ -85,6 +85,7 @@
                     <p class="card-text">Phone Number: @Model.Agent.PhoneNumber</p>
                 </div>
             </div>*@
+            <partial name="_CommentPartial" model="@Model.Comments"/>
         </div>
     </div>
 </div>
