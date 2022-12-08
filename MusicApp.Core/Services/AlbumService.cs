@@ -207,9 +207,11 @@ namespace MusicApp.Core.Services
             return albums;
         }
 
-        public Task<bool> IsAlbumAddedByUser()
+        public async Task<bool> IsAlbumAddedByUser(int albumId, string userId)
         {
-            throw new NotImplementedException();
+            return await repository
+                .AllReadonly<Album>()
+                .AnyAsync(a=> a.Id == albumId && a.UserId == userId);
         }
     }
 }
