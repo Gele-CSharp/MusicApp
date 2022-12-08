@@ -56,7 +56,7 @@ namespace Library.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
 
-            return View(model);
+            return RedirectToAction(nameof(Login));
         }
 
         [HttpGet]
@@ -85,7 +85,7 @@ namespace Library.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("All", "Albums");
+                    return RedirectToAction("All", "Album");
                 }
             }
 
