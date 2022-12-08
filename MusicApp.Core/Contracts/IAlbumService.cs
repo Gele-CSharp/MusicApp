@@ -5,9 +5,11 @@ namespace MusicApp.Core.Contracts
 {
     public interface IAlbumService
     {
-        Task<IEnumerable<AlbumModel>> GetLastThreeAlbums();
+        Task<IEnumerable<HomepageAlbumModel>> GetLastThreeAlbums();
 
         Task<AllAlbumsModel> GetAllAlbums(string? genre = null, string? searchTerm = null, AlbumsSorting sorting = AlbumsSorting.Newest, int currentPage = 1, int albumsPerPage = 1 );
+
+        Task<IEnumerable<AlbumModel>> GetAllUserAlbums(string userId);
 
         Task<IEnumerable<Genre>> GetGenres();
 
@@ -20,5 +22,7 @@ namespace MusicApp.Core.Contracts
         Task AddComent(int albumId, string userId, Comment comment);
 
         Task<int> AddAlbum(AddAlbumModel model, string userId);
+
+        Task<bool> IsAlbumAddedByUser();
     }
 }
