@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MusicApp.Core.Contracts;
 using MusicApp.Core.Models.Album;
 using MusicApp.Core.Models.Comments;
+using MusicApp.Infrastructure.Data.Entities;
 
 namespace MusicApp.Controllers
 {
@@ -48,6 +49,33 @@ namespace MusicApp.Controllers
             }
 
             return RedirectToAction(nameof(Details), new { albumId });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Add()
+        {
+            var model = new AddAlbumModel();
+            var genreModels = await albumService.GetGenreModels();
+            model.Genres = genreModels;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(AddAlbumModel model)
+        {
+            if (ModelState.IsValid == false)
+            {
+                var genreModels = await albumService.GetGenreModels();
+                model.Genres = genreModels;
+
+                return View(model);
+            }
+
+            string userId = User.Id();
+            int albumId = await albumService.AddAlbum(model, userId);
+
+            return RedirectToAction(nameof(Details), new {albumId});
         }
     }
 }
