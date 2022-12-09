@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MusicApp.Infrastructure.Data.Entities
 {
@@ -22,6 +23,11 @@ namespace MusicApp.Infrastructure.Data.Entities
         /// <summary>
         /// User collection of albums
         /// </summary>
-        public IEnumerable<Album> Albums { get; set; } = new HashSet<Album>();
+        public ICollection<Album> Albums { get; set; } = new HashSet<Album>();
+
+        /// <summary>
+        /// User liked albums
+        /// </summary>
+        public ICollection<Like> Likes { get; set; } = new HashSet<Like>();
     }
 }
