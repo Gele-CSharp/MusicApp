@@ -18,7 +18,7 @@ namespace MusicApp.Infrastructure.Data.Entities.Configuration
 
             var user = new User()
             {
-                Id = "42c8f95a-e61d-445a-bb23-67b2fd181c87",
+                Id = "42c8f95a-e61d-445a-bb23-67b2fd181c89",
                 UserName = "user@mail.com",
                 NormalizedUserName = "USER@MAIL.COM",
                 Email = "user@mail.com",
@@ -32,7 +32,7 @@ namespace MusicApp.Infrastructure.Data.Entities.Configuration
 
             user = new User()
             {
-                Id = "43a3b5b6-a7e5-4949-a539-d7029f18f746",
+                Id = "43a3b5b6-a7e5-4949-a539-d7029f18f747",
                 UserName = "admin@mail.com",
                 NormalizedUserName = "ADMIN@MAIL.COM",
                 Email = "admin@mail.com",
