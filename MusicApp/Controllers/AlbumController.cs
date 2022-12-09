@@ -85,5 +85,11 @@ namespace MusicApp.Controllers
 
             return View(model);
         }
+
+        public async Task<IActionResult> Like(int id)
+        {
+            await albumService.LikeAlbum(id, User.Id());
+            return RedirectToAction(nameof(Details), new { albumId = id });
+        }
     }
 }
