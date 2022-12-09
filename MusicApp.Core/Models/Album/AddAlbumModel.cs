@@ -9,6 +9,12 @@ namespace MusicApp.Core.Models.Album
     public class AddAlbumModel
     {
         /// <summary>
+        /// Album identifier
+        /// </summary>
+        [Key]
+        public int Id { get; set; }
+
+        /// <summary>
         /// Album title
         /// </summary>
         [Required(AllowEmptyStrings = false)]
