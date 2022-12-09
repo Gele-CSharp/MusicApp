@@ -21,6 +21,8 @@ namespace MusicApp.Data
 
         public DbSet<Event> Events { get; set; } = null!;
 
+        public DbSet<Like> Likes { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Album>()
