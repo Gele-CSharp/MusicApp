@@ -15,22 +15,22 @@
                class="btn btn-success">Details</a>
             @if (this.User?.Identity?.IsAuthenticated ?? false)
             {
-                @*@if (await houses.HasAgentWithId(Model.Id, User.Id()))
+                @if (await albums.IsAlbumAddedByUser(Model.Id, User.Id()))
                 {
-                    <a asp-controller="Houses" asp-action="Edit" asp-route-id="@Model.Id"
+                    <a asp-controller="Album" asp-action="Edit" asp-route-id="@Model.Id"
                       class="btn btn-warning">Edit</a>
-                    <a asp-controller="Houses" asp-action="Delete" asp-route-id="@Model.Id"
+                    <a asp-controller="Album" asp-action="Delete" asp-route-id="@Model.Id"
                       class="btn btn-danger">Delete</a>
                 }
                 <p></p>
-                @if (Model.IsRented == false && (await agents.ExistsByIdAsync(User.Id()) == false))
+                @*@if ((await albums.IsAlbumAddedByUser(Model.Id, User.Id())) == false && (await albums.IsAlbumLikedByUser(Model.Id, User.Id()) == false))
                 {
-                    <form class="input-group-sm" asp-controller="Houses"
-                  asp-action="Rent" asp-route-id="@Model.Id" method="post">
-                        <input class="btn btn-primary" type="submit" value="Rent" />
+                    <form class="input-group-sm" asp-controller="Album"
+                  asp-action="like" asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-primary" type="submit" value="Like" />
                     </form>
-                }
-                else if (await houses.IsRentedByUserWithId(Model.Id, User.Id()))
+                }*@
+                @*else if (await houses.IsRentedByUserWithId(Model.Id, User.Id()))
                 {
                     <form asp-controller="Houses" asp-action="Leave"
                   asp-route-id="@Model.Id" method="post">
