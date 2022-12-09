@@ -1,4 +1,6 @@
 ﻿@model AlbumDetailsModel
+@using MusicApp.Extensions
+@inject IAlbumService albums
 
 @{
     ViewBag.Title = "Album Details";
@@ -20,6 +22,7 @@
             <p>@Model.Description</p>
             <p>Genre: <b>@Model.Genre.Name</b></p>
             <p>Year: <b>@Model.Year</b></p>
+            <p>Likes: <b>@Model.Likes</b></p>
             @*<p><i>(@(Model.IsRented ? "Rented" : "Not Rented"))</i></p>*@
             <div class="form-inline">
                 @if ((this.User?.Identity?.IsAuthenticated ?? false) && User.Id() == Model.UserId)
@@ -28,6 +31,7 @@
                        asp-route-id="@Model.Id">Edit</a>
                     <a class="ml-2 btn btn-danger" asp-controller="Album" asp-action="Delete"
                        asp-route-id="@Model.Id">Delete</a>
+                   
                     @*@if (!Model.IsRented)
                     {
                         <form class="ml-2" asp-controller="Houses"
@@ -42,6 +46,14 @@
                             <input class="btn btn-primary" type="submit" value="Leave" />
                         </form>
                     }*@
+                }
+
+                @if ((await albums.IsAlbumAddedByUser(Model.Id, User.Id())) == false && (await albums.IsAlbumLikedByUser(Model.Id, User.Id()) == false))
+                {
+                    <form class="input-group-sm" asp-controller="Album"
+                      asp-action="like" asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-primary" type="submit" value="Like" />
+                    </form>
                 }
             </div>
             <p></p>
