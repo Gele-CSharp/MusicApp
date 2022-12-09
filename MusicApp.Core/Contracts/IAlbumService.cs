@@ -24,5 +24,9 @@ namespace MusicApp.Core.Contracts
         Task<int> AddAlbum(AddAlbumModel model, string userId);
 
         Task<bool> IsAlbumAddedByUser(int albumId, string userId);
+
+        Task LikeAlbum(int albumId, string userId);
+
+        Task<bool> IsAlbumLikedByUser(int albumId, string userId);
     }
 }

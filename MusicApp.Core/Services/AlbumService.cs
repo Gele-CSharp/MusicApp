@@ -209,9 +209,32 @@ namespace MusicApp.Core.Services
 
         public async Task<bool> IsAlbumAddedByUser(int albumId, string userId)
         {
-            return await repository
+            var isAddedByUser = await repository
                 .AllReadonly<Album>()
                 .AnyAsync(a=> a.Id == albumId && a.UserId == userId);
+
+            return isAddedByUser;
+        }
+
+        public async Task<bool> IsAlbumLikedByUser(int albumId, string userId)
+        {
+            var user = await repository
+                .AllReadonly<User>()
+                .Where(u => u.Id == userId)
+                .Include(u => u.Likes)
+                .FirstAsync();
+
+            return user.Likes.Any(l=> l.AlbumId == albumId);
+        }
+
+        public async Task LikeAlbum(int albumId, string userId)
+        {
+            var album = await repository.GetByIdAsync<Album>(albumId);
+            var user = await repository.GetByIdAsync<User>(userId);
+
+            album.Likes++;
+            user.Likes.Add(new Like() { AlbumId = albumId });
+            await repository.SaveChangesAsync();
         }
     }
 }
