@@ -91,5 +91,37 @@ namespace MusicApp.Controllers
             await albumService.LikeAlbum(id, User.Id());
             return RedirectToAction(nameof(Details), new { albumId = id });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = await albumService.GetAlbumDetailsToEdit(id);
+            model.Genres = await albumService.GetGenreModels();
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(AddAlbumModel model)
+        {
+            if (ModelState.IsValid == false)
+            {
+                model.Genres = await albumService.GetGenreModels();
+                return View(model);
+            }
+
+            var userId = User.Id();
+            var albumId = model.Id;
+
+            await albumService.Edit(albumId, userId, model);
+
+            return RedirectToAction(nameof(Details), new { albumId });
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var userId = User.Id();
+            await albumService.Delete(id, userId);
+            return RedirectToAction(nameof(All));
+        }
     }
 }
