@@ -17,6 +17,8 @@ namespace MusicApp.Core.Contracts
 
         Task<AlbumDetailsModel> GetAlbumDetails(int albumId);
 
+        Task<AddAlbumModel> GetAlbumDetailsToEdit(int albumId);
+
         Task<ICollection<Comment>> GetComments(int albumId);
 
         Task AddComent(int albumId, string userId, Comment comment);
@@ -28,5 +30,9 @@ namespace MusicApp.Core.Contracts
         Task LikeAlbum(int albumId, string userId);
 
         Task<bool> IsAlbumLikedByUser(int albumId, string userId);
+
+        Task Edit(int albumId, string userId, AddAlbumModel model);
+
+        Task Delete(int albumId, string userId);
     }
 }
