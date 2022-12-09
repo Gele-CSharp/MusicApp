@@ -44,6 +44,35 @@ namespace MusicApp.Core.Services
             await repository.SaveChangesAsync();
         }
 
+
+        public async Task Delete(int albumId, string userId)
+        {
+            var album = await repository.GetByIdAsync<Album>(albumId);
+
+            if ((await IsAlbumAddedByUser(albumId, userId)))
+            {
+                album.IsActive = false;
+                await repository.SaveChangesAsync();
+            }
+        }
+
+
+        public async Task Edit(int albumId, string userId, AddAlbumModel model)
+        {
+            var album = await repository.GetByIdAsync<Album>(albumId);
+            album.Title = model.Title;
+            album.Artist = model.Artist;
+            album.Description = model.Description;
+            album.ImageUrl = model.ImageUrl;
+            album.Year = model.Year;
+            album.GenreId = model.GenreId;
+
+            if ((await IsAlbumAddedByUser(albumId, userId)))
+            {
+                await repository.SaveChangesAsync();
+            }
+        }
+
         public async Task<AlbumDetailsModel> GetAlbumDetails(int albumId)
         {
             var album = await repository
@@ -73,6 +102,27 @@ namespace MusicApp.Core.Services
                     AlbumId = albumId,
                     Comments = comments
                 }
+            };
+        }
+
+        public async Task<AddAlbumModel> GetAlbumDetailsToEdit(int albumId)
+        {
+            var album = await repository
+                .AllReadonly<Album>()
+                .Where(a => a.IsActive && a.Id == albumId)
+                .Include(a => a.User)
+                .Include(a => a.Genre)
+                .FirstAsync();
+
+            return new AddAlbumModel()
+            {
+                Id = album.Id,
+                Title = album.Title,
+                Artist = album.Artist,
+                ImageUrl = album.ImageUrl,
+                Description = album.Description,
+                Year = album.Year,
+                GenreId = album.GenreId
             };
         }
 
