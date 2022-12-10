@@ -54,8 +54,11 @@
 <div class="mb-5"></div>
 <div class="row">
     <div class="col-12 text-center">
-        <button class="btn btn-primary" id="statistics-button">Show Statistics</button>
+        <a class="btn btn-primary" asp-controller="Statistics" asp-action="Top3">Top 3</a>
     </div>
+    @*<div class="col-12 text-center">
+        <button class="btn btn-primary" id="statistics-button">Show Statistics</button>
+    </div>*@
 </div>
 
 <div class="mt-4 p-5 bg-light d-none" id="statistics">
