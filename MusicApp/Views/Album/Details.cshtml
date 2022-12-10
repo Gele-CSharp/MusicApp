@@ -25,7 +25,7 @@
             <p>Likes: <b>@Model.Likes</b></p>
             @*<p><i>(@(Model.IsRented ? "Rented" : "Not Rented"))</i></p>*@
             <div class="form-inline">
-                @if ((this.User?.Identity?.IsAuthenticated ?? false) && User.Id() == Model.UserId)
+                @if ((this.User?.Identity?.IsAuthenticated ?? false) && User?.Id() == Model.UserId)
                 {
                     <a class="btn btn-warning" asp-controller="Album" asp-action="Edit"
                        asp-route-id="@Model.Id">Edit</a>
@@ -46,15 +46,17 @@
                             <input class="btn btn-primary" type="submit" value="Leave" />
                         </form>
                     }*@
+
+                    @if ((await albums.IsAlbumAddedByUser(Model.Id, User.Id())) == false && (await albums.IsAlbumLikedByUser(Model.Id, User.Id()) == false))
+                    {
+                        <form class="input-group-sm" asp-controller="Album"
+                      asp-action="like" asp-route-id="@Model.Id" method="post">
+                            <input class="btn btn-primary" type="submit" value="Like" />
+                        </form>
+                    }
                 }
 
-                @if ((await albums.IsAlbumAddedByUser(Model.Id, User.Id())) == false && (await albums.IsAlbumLikedByUser(Model.Id, User.Id()) == false))
-                {
-                    <form class="input-group-sm" asp-controller="Album"
-                      asp-action="like" asp-route-id="@Model.Id" method="post">
-                        <input class="btn btn-primary" type="submit" value="Like" />
-                    </form>
-                }
+                
             </div>
             <p></p>
             @*<div class="details-comments">
