@@ -20,6 +20,7 @@ builder.Services.AddDefaultIdentity<User>(options =>
     options.Password.RequireUppercase = false;
 })
     .AddEntityFrameworkStores<MusicAppDbContext>();
+
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddAplicationServices();
