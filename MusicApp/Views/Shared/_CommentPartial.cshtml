@@ -20,6 +20,8 @@ else
     <p>No comments yet!</p>
 }
 
+<div class="mb-5"></div>
+
 @if (this.User?.Identity?.IsAuthenticated ?? false)
 {
     <form asp-controller="Album" asp-action="Comment" method="post" asp-route-albumId="@Model.AlbumId">
