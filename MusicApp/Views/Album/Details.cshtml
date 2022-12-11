@@ -23,7 +23,6 @@
             <p>Genre: <b>@Model.Genre.Name</b></p>
             <p>Year: <b>@Model.Year</b></p>
             <p>Likes: <b>@Model.Likes</b></p>
-            @*<p><i>(@(Model.IsRented ? "Rented" : "Not Rented"))</i></p>*@
             <div class="form-inline">
                 @if ((this.User?.Identity?.IsAuthenticated ?? false) && User?.Id() == Model.UserId)
                 {
@@ -31,75 +30,21 @@
                        asp-route-id="@Model.Id">Edit</a>
                     <a class="ml-2 btn btn-danger" asp-controller="Album" asp-action="Delete"
                        asp-route-id="@Model.Id">Delete</a>
-                   
-                    @*@if (!Model.IsRented)
-                    {
-                        <form class="ml-2" asp-controller="Houses"
-                              asp-action="Rent" asp-route-id="@Model.Id" method="post">
-                            <input class="btn btn-primary" type="submit" value="Rent" />
-                        </form>
-                    }
-                    else
-                    {
-                        <form class="ml-2" asp-controller="Houses" asp-action="Leave"
-                              asp-route-id="@Model.Id" method="post">
-                            <input class="btn btn-primary" type="submit" value="Leave" />
-                        </form>
-                    }*@
-
-                    @if ((await albums.IsAlbumAddedByUser(Model.Id, User.Id())) == false && (await albums.IsAlbumLikedByUser(Model.Id, User.Id()) == false))
-                    {
-                        <form class="input-group-sm" asp-controller="Album"
-                      asp-action="like" asp-route-id="@Model.Id" method="post">
-                            <input class="btn btn-primary" type="submit" value="Like" />
-                        </form>
-                    }
                 }
 
-                
+                @if ((this.User?.Identity?.IsAuthenticated ?? false) && (await albums.IsAlbumAddedByUser(Model.Id, User.Id())) == false && (await albums.IsAlbumLikedByUser(Model.Id, User.Id()) == false))
+                {
+                    <form class="input-group-sm" asp-controller="Album"
+                      asp-action="like" asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-primary" type="submit" value="Like" />
+                    </form>
+                }
             </div>
             <p></p>
-            @*<div class="details-comments">
-                    <h2>Comments:</h2>
-                    <ul>
-                        <!-- list all comments for current game (If any) -->
-                        <li class="list">
-                            <p>Content: I rate this one quite highly.</p>
-                        </li>
-                        <li class="comment">
-                            <p>Content: The best game.</p>
-                        </li>
-                    </ul>
-                    <!-- Display paragraph: If there are no games in the database -->
-                    <p class="no-comment">No comments.</p>
-                </div>
-            <p></p>
-
-            <form asp-controller="Chat" asp-action="Send" method="post">
-                <div class="form-group card-header row">
-                    <div class="col-12">
-                        <h5>Send a new message</h5>
-                        <div class="col-8">
-                            <label>Message:</label>
-                            <textarea asp-for="CurrentMessage.MessageText" class="form-control" rows="3"></textarea>
-                        </div>
-                        <div class="col-4">
-                            <label>Sender Name:</label>
-                            <input asp-for="CurrentMessage.Sender" class="form-control" />
-                            <input class="btn btn-primary mt-2 float-lg-right" type="submit" value="Send" />
-                        </div>
-                    </div>
-                </div>
-            </form>
-            <partial name="_CommentPartial" model=@Model.Comments/>
-            @*<div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">Agent Info</h5>
-                    <p class="card-text">Email:  @Model.Agent.Email</p>
-                    <p class="card-text">Phone Number: @Model.Agent.PhoneNumber</p>
-                </div>
-            </div>*@
             <partial name="_CommentPartial" model="@Model.Comments"/>
         </div>
     </div>
 </div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
