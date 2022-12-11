@@ -11,8 +11,7 @@
             <h6>Release year: <b>@Model.Year</b></h6>
             <br />
             <a asp-controller="Album" asp-action="Details" asp-route-albumId="@Model.Id"
-               asp-route-information="@Model.GetInformation()"
-               class="btn btn-success">Details</a>
+               asp-route-information="@Model.GetInformation()" class="btn btn-success">Details</a>
             @if (this.User?.Identity?.IsAuthenticated ?? false)
             {
                 @if (await albums.IsAlbumAddedByUser(Model.Id, User.Id()))
@@ -22,21 +21,6 @@
                     <a asp-controller="Album" asp-action="Delete" asp-route-id="@Model.Id"
                       class="btn btn-danger">Delete</a>
                 }
-                <p></p>
-                @*@if ((await albums.IsAlbumAddedByUser(Model.Id, User.Id())) == false && (await albums.IsAlbumLikedByUser(Model.Id, User.Id()) == false))
-                {
-                    <form class="input-group-sm" asp-controller="Album"
-                  asp-action="like" asp-route-id="@Model.Id" method="post">
-                        <input class="btn btn-primary" type="submit" value="Like" />
-                    </form>
-                }*@
-                @*else if (await houses.IsRentedByUserWithId(Model.Id, User.Id()))
-                {
-                    <form asp-controller="Houses" asp-action="Leave"
-                  asp-route-id="@Model.Id" method="post">
-                        <input class="btn btn-primary" type="submit" value="Leave" />
-                    </form>
-                }*@
             }
         </div>
     </div>
