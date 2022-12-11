@@ -1,6 +1,8 @@
 ﻿using HouseRentingSystem.Infrastructure.Data.Common;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MusicApp.Core.Contracts;
 using MusicApp.Core.Models.Album;
 using MusicApp.Core.Models.Comments;
@@ -11,10 +13,13 @@ namespace MusicApp.Core.Services
     public class AlbumService : IAlbumService
     {
         private readonly IRepository repository;
+        private readonly ILogger<AlbumService> logger;
 
-        public AlbumService(IRepository _repository)
+        public AlbumService(IRepository _repository,
+                            ILogger<AlbumService> _logger)
         {
             repository = _repository;
+            logger = _logger;
         }
 
         public async Task<int> AddAlbum(AddAlbumModel model, string userId)
@@ -52,7 +57,16 @@ namespace MusicApp.Core.Services
             if ((await IsAlbumAddedByUser(albumId, userId)))
             {
                 album.IsActive = false;
-                await repository.SaveChangesAsync();
+
+                try
+                {
+                    await repository.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(nameof(Delete), ex);
+                    throw new ApplicationException("Database failed to save info.", ex);
+                }
             }
         }
 
@@ -69,7 +83,15 @@ namespace MusicApp.Core.Services
 
             if ((await IsAlbumAddedByUser(albumId, userId)))
             {
-                await repository.SaveChangesAsync();
+                try
+                {
+                    await repository.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(nameof(Edit), ex);
+                    throw new ApplicationException("Database failed to save info.", ex);
+                }
             }
         }
 
@@ -284,7 +306,19 @@ namespace MusicApp.Core.Services
 
             album.Likes++;
             user.Likes.Add(new Like() { AlbumId = albumId });
-            await repository.SaveChangesAsync();
+
+            if ((await IsAlbumAddedByUser(albumId, userId)) == false && (await IsAlbumLikedByUser(albumId, userId)) == false)
+            {
+                try
+                {
+                    await repository.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(nameof(LikeAlbum), ex);
+                    throw new ApplicationException("Database failed to save info.", ex);
+                }
+            }
         }
     }
 }
