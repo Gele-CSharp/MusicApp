@@ -272,7 +272,8 @@ namespace MusicApp.Core.Services
                 {
                     Id = a.Id,
                     Title = a.Title,
-                    ImageUrl = a.ImageUrl
+                    ImageUrl = a.ImageUrl,
+                    Artist = a.Artist
                 })
                 .ToListAsync();
 
