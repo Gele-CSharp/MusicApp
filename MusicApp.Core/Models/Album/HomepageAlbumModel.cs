@@ -3,7 +3,7 @@
     /// <summary>
     /// Homepage album model
     /// </summary>
-    public class HomepageAlbumModel
+    public class HomepageAlbumModel : IAlbumModel
     {
         /// <summary>
         /// Album identifier
@@ -19,5 +19,10 @@
         /// Album cover image url
         /// </summary>
         public string ImageUrl { get; set; } = null!;
+
+        /// <summary>
+        /// Performer
+        /// </summary>
+        public string Artist { get; init; } = null!;
     }
 }
