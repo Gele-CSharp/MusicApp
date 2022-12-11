@@ -15,6 +15,32 @@ namespace MusicApp.Core.Services
             repository = _repository;
         }
 
+        public async Task<StatisticsModel> Statistics()
+        {
+            var albums = await repository
+                .AllReadonly<Album>()
+                .Where(a=> a.IsActive)
+                .CountAsync();
+
+            var artists = await repository
+                .AllReadonly<Album>()
+                .Where(a => a.IsActive)
+                .Select(a => a.Artist)
+                .Distinct()
+                .CountAsync();
+
+            var users = await repository
+                .AllReadonly<User>()
+                .CountAsync();
+
+            return new StatisticsModel()
+            {
+                Albums = albums,
+                Artists = artists,
+                Users = users
+            };
+        }
+
         public async Task<IEnumerable<StatisticsAlbumModel>> Top3()
         {
             return await repository
