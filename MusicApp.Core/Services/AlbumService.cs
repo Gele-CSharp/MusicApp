@@ -147,36 +147,6 @@ namespace MusicApp.Core.Services
             };
         }
 
-        public async Task<IEnumerable<AlbumDetailsModel>> GetAlbumsDetails()
-        {
-            return await repository
-                .AllReadonly<Album>()
-                .Include(a=> a.User)
-                .Include(a=> a.Genre)
-                .Include(a=> a.Comments)
-                .Where(a => a.IsActive)
-                .Select(a=> new AlbumDetailsModel() 
-                {
-                    Id = a.Id,
-                    Title = a.Title,
-                    Artist = a.Artist,
-                    Description = a.Description,
-                    Year = a.Year,
-                    GenreId = a.GenreId,
-                    Genre = a.Genre,
-                    UserId = a.UserId,
-                    User = a.User,
-                    ImageUrl = a.ImageUrl,
-                    Likes = a.Likes,
-                    Comments = new CommentModel()
-                    {
-                        AlbumId = a.Id,
-                        Comments = a.Comments
-                    }
-                })
-                .ToListAsync();
-        }
-
         public async Task<IEnumerable<AlbumModel>> GetAllAlbums()
         {
             var albums = await repository
