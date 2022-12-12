@@ -85,6 +85,11 @@ namespace Library.Controllers
 
                 if (result.Succeeded)
                 {
+                    if ((await userManager.IsInRoleAsync(user, "Administrator")))
+                    {
+                        return RedirectToAction("All", "Album", new { area= "Admin" });
+                    } 
+
                     return RedirectToAction("All", "Album");
                 }
             }
