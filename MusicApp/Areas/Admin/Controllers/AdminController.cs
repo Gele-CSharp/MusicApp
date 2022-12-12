@@ -1,12 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using MusicApp.Infrastructure.Data.Entities;
 
 namespace MusicApp.Areas.Admin.Controllers
 {
     public class AdminController : BaseController
     {
-        public IActionResult Index()
+        private readonly SignInManager<User> signInManager;
+
+        public AdminController(SignInManager<User> _signInManager)
         {
-            return View();
+            signInManager = _signInManager;
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
     }
 }
