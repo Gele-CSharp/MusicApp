@@ -14,9 +14,9 @@
                 <label asp-for="Genre"></label>
                 <select asp-for="Genre" class="form-control">
                     <option value="">All</option>
-                    @foreach (var category in Model.Genres)
+                    @foreach (var genre in Model.Genres)
                     {
-                        <option value="@category">@category</option>
+                        <option value="@genre.Name">@genre.Name</option>
                     }
                 </select>
             </div>
@@ -31,10 +31,10 @@
             <div class="form-group">
                 <label asp-for="Sorting"></label>
                 <select asp-for="Sorting" class="form-control">
-                    <option value="0">Newest</option>
-                    <option value="1">Oldest</option>
-                    <option value="2">Release Year Ascending </option>
-                    <option value="3">Release Year Descending</option>
+                    <option value="1">Newest</option>
+                    <option value="2">Oldest</option>
+                    <option value="3">Release Year Ascending </option>
+                    <option value="4">Release Year Descending</option>
                 </select>
             </div>
         </div>
