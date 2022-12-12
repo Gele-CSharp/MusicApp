@@ -1,0 +1,39 @@
+﻿@model AlbumDetailsModel
+@using MusicApp.Extensions
+@inject IAlbumService albums
+
+@{
+    ViewBag.Title = "Admin area - Album Details";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="container" style="display:inline">
+    <div class="row">
+        <div class="col-4">
+            <img class="card-img-top" style="width: 20rem;"
+                 src="@Model.ImageUrl" alt="Album Image">
+        </div>
+        <div class="card col-8 border-0">
+            <p style="font-size:25px;"><u>@Model.Title</u></p>
+            <p>Artist: <b>@Model.Artist</b></p>
+            <p>Album info:</p>
+            <p>@Model.Description</p>
+            <p>Genre: <b>@Model.Genre.Name</b></p>
+            <p>Year: <b>@Model.Year</b></p>
+            <p>Likes: <b>@Model.Likes</b></p>
+            <div class="form-inline">
+                <a class="btn btn-warning" asp-controller="Album" asp-action="Edit"
+                   asp-route-id="@Model.Id">Edit</a>
+                <a class="ml-2 btn btn-danger" asp-controller="Album" asp-action="Delete"
+                   asp-route-id="@Model.Id">Delete</a>
+            </div>
+            <p></p>
+            <partial name="_CommentPartial" model="@Model.Comments"/>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
