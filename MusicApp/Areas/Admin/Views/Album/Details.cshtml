@@ -24,9 +24,9 @@
             <p>Year: <b>@Model.Year</b></p>
             <p>Likes: <b>@Model.Likes</b></p>
             <div class="form-inline">
-                <a class="btn btn-warning" asp-controller="Album" asp-action="Edit"
+                <a class="btn btn-warning" asp-area="Admin" asp-controller="Album" asp-action="Edit"
                    asp-route-id="@Model.Id">Edit</a>
-                <a class="ml-2 btn btn-danger" asp-controller="Album" asp-action="Delete"
+                <a class="ml-2 btn btn-danger" asp-area="Admin" asp-controller="Album" asp-action="Delete"
                    asp-route-id="@Model.Id">Delete</a>
             </div>
             <p></p>
