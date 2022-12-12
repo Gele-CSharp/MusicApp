@@ -4,12 +4,18 @@
 
 @if (Model.Comments.Any())
 {
-    @foreach (var message in Model.Comments)
+    @foreach (var comment in Model.Comments)
     {
         <div class="card bg-light col-6">
             <div class="card-body">
                 <blockquote class="blockquote mb-0">
-                    <p>@message.User.FirstName @message.User.LastName: @message.Content</p>
+                    <p>@comment.User.FirstName @comment.User.LastName: @comment.Content</p>
+                    <div class="form-inline">
+                        <a class="btn btn-warning" asp-area="Admin" asp-controller="Comment" asp-action="Edit"
+                   asp-route-id="@comment.Id" asp-route-albumId="@comment.AlbumId">Edit</a>
+                        <a class="ml-2 btn btn-danger" asp-area="Admin" asp-controller="Comment" asp-action="Delete"
+                   asp-route-id="@comment.Id" asp-route-albumId="@comment.AlbumId">Delete</a>
+                    </div>
                 </blockquote>
             </div>
         </div>
@@ -24,7 +30,7 @@ else
 
 @if (this.User?.Identity?.IsAuthenticated ?? false)
 {
-    <form asp-controller="Album" asp-action="Comment" method="post" asp-route-albumId="@Model.AlbumId">
+    <form asp-area="Admin" asp-controller="Album" asp-action="Comment" method="post" asp-route-albumId="@Model.AlbumId">
         <div class="form-group card-header row">
             <div class="col-12">
                 <h5>Post a new comment</h5>
