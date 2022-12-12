@@ -70,7 +70,6 @@ namespace MusicApp.Core.Services
             }
         }
 
-
         public async Task Edit(int albumId, string userId, AddAlbumModel model)
         {
             var album = await repository.GetByIdAsync<Album>(albumId);
@@ -148,6 +147,36 @@ namespace MusicApp.Core.Services
             };
         }
 
+        public async Task<IEnumerable<AlbumDetailsModel>> GetAlbumsDetails()
+        {
+            return await repository
+                .AllReadonly<Album>()
+                .Include(a=> a.User)
+                .Include(a=> a.Genre)
+                .Include(a=> a.Comments)
+                .Where(a => a.IsActive)
+                .Select(a=> new AlbumDetailsModel() 
+                {
+                    Id = a.Id,
+                    Title = a.Title,
+                    Artist = a.Artist,
+                    Description = a.Description,
+                    Year = a.Year,
+                    GenreId = a.GenreId,
+                    Genre = a.Genre,
+                    UserId = a.UserId,
+                    User = a.User,
+                    ImageUrl = a.ImageUrl,
+                    Likes = a.Likes,
+                    Comments = new CommentModel()
+                    {
+                        AlbumId = a.Id,
+                        Comments = a.Comments
+                    }
+                })
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<AlbumModel>> GetAllAlbums()
         {
             var albums = await repository
@@ -198,6 +227,51 @@ namespace MusicApp.Core.Services
             result.Albums = albums
                 .Skip((currentPage - 1) * albumsPerPage)
                 .Take(albumsPerPage)
+                .Select(a => new AlbumModel()
+                {
+                    Id = a.Id,
+                    Artist = a.Artist,
+                    Title = a.Title,
+                    ImageUrl = a.ImageUrl,
+                    Genre = a.Genre,
+                    Year = a.Year
+                });
+
+            result.TotalAlbumsCount = await albums.CountAsync();
+
+            return result;
+        }
+
+        public async Task<AllAlbumsModel> GetAllAlbums(string? genre = null, string? searchTerm = null, AlbumsSorting sorting = AlbumsSorting.Newest)
+        {
+            var albums = repository
+                .AllReadonly<Album>()
+                .Where(a => a.IsActive);
+
+            if (genre != null)
+            {
+                albums = albums.Where(a => a.Genre.Name == genre);
+            }
+
+            if (searchTerm != null)
+            {
+                searchTerm = searchTerm.ToUpper();
+                albums = albums.Where(a => a.Artist.ToUpper().Contains(searchTerm) ||
+                                      a.Title.ToUpper().Contains(searchTerm));
+
+            }
+
+            albums = sorting switch
+            {
+                AlbumsSorting.Oldest => albums.OrderBy(a => a.Id),
+                AlbumsSorting.ReleaseYearAscending => albums.OrderBy(a => a.Year),
+                AlbumsSorting.ReleaseYearDescending => albums.OrderByDescending(a => a.Year),
+                _ => albums.OrderByDescending(a => a.Id)
+            };
+
+            var result = new AllAlbumsModel();
+
+            result.Albums = albums
                 .Select(a => new AlbumModel()
                 {
                     Id = a.Id,
