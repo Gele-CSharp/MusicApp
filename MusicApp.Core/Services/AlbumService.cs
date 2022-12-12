@@ -13,13 +13,19 @@ namespace MusicApp.Core.Services
     public class AlbumService : IAlbumService
     {
         private readonly IRepository repository;
+        private readonly ICommentService commentService;
         private readonly ILogger<AlbumService> logger;
+        private readonly UserManager<User> userManager;
 
         public AlbumService(IRepository _repository,
-                            ILogger<AlbumService> _logger)
+                            ILogger<AlbumService> _logger,
+                            ICommentService _commentService,
+                            UserManager<User> _userManager)
         {
             repository = _repository;
             logger = _logger;
+            commentService = _commentService;
+            userManager = _userManager;
         }
 
         public async Task<int> AddAlbum(AddAlbumModel model, string userId)
@@ -40,21 +46,12 @@ namespace MusicApp.Core.Services
             return album.Id;
         }
 
-        public async Task AddComent(int albumId, string userId, Comment comment)
-        {
-            var album = await repository.GetByIdAsync<Album>(albumId);
-            comment.UserId = userId;
-            comment.AlbumId = albumId;
-            album.Comments.Add(comment);
-            await repository.SaveChangesAsync();
-        }
-
-
         public async Task Delete(int albumId, string userId)
         {
             var album = await repository.GetByIdAsync<Album>(albumId);
+            var user = await repository.GetByIdAsync<User>(userId);
 
-            if ((await IsAlbumAddedByUser(albumId, userId)))
+            if ((await IsAlbumAddedByUser(albumId, userId)) || (await userManager.IsInRoleAsync(user, "Administrator")))
             {
                 album.IsActive = false;
 
@@ -72,6 +69,7 @@ namespace MusicApp.Core.Services
 
         public async Task Edit(int albumId, string userId, AddAlbumModel model)
         {
+            var user = await repository.GetByIdAsync<User>(userId);
             var album = await repository.GetByIdAsync<Album>(albumId);
             album.Title = model.Title;
             album.Artist = model.Artist;
@@ -80,7 +78,7 @@ namespace MusicApp.Core.Services
             album.Year = model.Year;
             album.GenreId = model.GenreId;
 
-            if ((await IsAlbumAddedByUser(albumId, userId)))
+            if ((await IsAlbumAddedByUser(albumId, userId)) || (await userManager.IsInRoleAsync(user, "Administrator")))
             {
                 try
                 {
@@ -103,7 +101,7 @@ namespace MusicApp.Core.Services
                 .Include(a => a.Genre)
                 .FirstAsync();
 
-            var comments = await GetComments(albumId);
+            var comments = await commentService.GetComments(albumId);
 
             return new AlbumDetailsModel()
             {
@@ -145,6 +143,11 @@ namespace MusicApp.Core.Services
                 Year = album.Year,
                 GenreId = album.GenreId
             };
+        }
+
+        public async Task<Album> GetAlbum(int albumId)
+        {
+            return await repository.GetByIdAsync<Album>(albumId);
         }
 
         public async Task<IEnumerable<AlbumModel>> GetAllAlbums()
@@ -271,15 +274,6 @@ namespace MusicApp.Core.Services
                     ImageUrl = a.ImageUrl,
                     Year = a.Year
                 })
-                .ToListAsync();
-        }
-
-        public async Task<ICollection<Comment>> GetComments(int albumId)
-        {
-            return await repository
-                .AllReadonly<Comment>()
-                .Where(c => c.AlbumId == albumId)
-                .Include(c=> c.User)
                 .ToListAsync();
         }
 
