@@ -11,11 +11,15 @@ namespace MusicApp.Controllers
     {
         private readonly ILogger<HomeController> logger;
         private readonly IAlbumService albumService;
+        private readonly ICommentService commentService;
 
-        public AlbumController(ILogger<HomeController> _logger, IAlbumService _albumService)
+        public AlbumController(ILogger<HomeController> _logger,
+                               IAlbumService _albumService,
+                               ICommentService commentService)
         {
             logger = _logger;
             albumService = _albumService;
+            this.commentService = commentService;
         }
 
         [AllowAnonymous]
@@ -45,7 +49,7 @@ namespace MusicApp.Controllers
 
             if (model.Comment != null)
             {
-                await albumService.AddComent(albumId, userId, model.Comment);
+                await commentService.AddComment(albumId, userId, model.Comment);
             }
 
             return RedirectToAction(nameof(Details), new { albumId });
