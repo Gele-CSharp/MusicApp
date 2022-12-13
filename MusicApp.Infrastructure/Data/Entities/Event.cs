@@ -22,6 +22,12 @@ namespace MusicApp.Infrastructure.Data.Entities
         public string Artist { get; set; } = null!;
 
         /// <summary>
+        /// Event image url
+        /// </summary>
+        [Required]
+        public string ImageUrl { get; set; } = null!;
+
+        /// <summary>
         /// Event location
         /// </summary>
         [Required]

@@ -45,5 +45,10 @@ namespace MusicApp.Infrastructure.Data.Entities
         [Required(AllowEmptyStrings = false)]
         [StringLength(ContentMaxLength)]
         public string Content { get; set; } = null!;
+
+        /// <summary>
+        /// Determines if comment to be displayed
+        /// </summary>
+        public bool IsActive { get; set; } = true;
     }
 }
