@@ -371,6 +371,9 @@ namespace MusicApp.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -400,6 +403,10 @@ namespace MusicApp.Infrastructure.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -414,7 +421,8 @@ namespace MusicApp.Infrastructure.Migrations
                         {
                             Id = 1,
                             Artist = "Лили Иванова",
-                            Date = new DateTime(2022, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Date = new DateTime(2022, 12, 4, 20, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImageUrl = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.eventim.bg%2Fbg%2Fartist%2Flili-ivanova-2%2Fprofile.html&psig=AOvVaw3IDtRNU1-18kn24xJVnSN8&ust=1671022386647000&source=images&cd=vfe&ved=2ahUKEwj53bTP0fb7AhWRYPEDHUnCBqAQjRx6BAgAEAo",
                             Location = "Зала Армеец"
                         });
                 });
@@ -576,7 +584,7 @@ namespace MusicApp.Infrastructure.Migrations
                         {
                             Id = "42c8f95a-e61d-445a-bb23-67b2fd181c89",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d2fabc68-73d2-40f6-9af6-867280cf2bc7",
+                            ConcurrencyStamp = "ae367bf7-7155-48b8-bfc5-1b9dad9020fd",
                             Email = "user@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Pesho",
@@ -584,9 +592,9 @@ namespace MusicApp.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "USER@MAIL.COM",
                             NormalizedUserName = "USER@MAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGgAyA+RebmpttslJ/QINOhx3pF/MeEWlfhWlRxwIy+Rak/60mgEhtRaCsXbj1EFsA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECb+cD0OYN1YMvJ3GVRJ6FBr6vHT5swbeffLF4Mc946gUXS0ZoMw3GAX+r07MpacEg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "fe2b0d90-61c0-4a0c-afaf-2836c1a270d2",
+                            SecurityStamp = "91708607-692d-4bde-a5cc-3af74e7d983b",
                             TwoFactorEnabled = false,
                             UserName = "user@mail.com"
                         },
@@ -594,7 +602,7 @@ namespace MusicApp.Infrastructure.Migrations
                         {
                             Id = "43a3b5b6-a7e5-4949-a539-d7029f18f747",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3fbffaf5-3856-419e-bcce-97e374168f23",
+                            ConcurrencyStamp = "3e89a7c6-685d-4d7c-9bbe-07a84499bad9",
                             Email = "admin@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Ivan",
@@ -602,9 +610,9 @@ namespace MusicApp.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.COM",
                             NormalizedUserName = "ADMIN@MAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOc5JtiDH2TelaM8T/qCzVNeHYU3DOcDVErVKPv/vujPTv57g3QBSG9P+2BS63h5mg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKPRC33hJB8o+18I0gtyUUse3ZldG8p9XlAmtBrSxnSy+vTVUfJc4Y9/K+EcFOKHQg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c309e6e6-70f6-4c53-83d8-4cb4f748827e",
+                            SecurityStamp = "86f1a727-46dc-4ffc-a7fe-5dc22e0362b5",
                             TwoFactorEnabled = false,
                             UserName = "admin@mail.com"
                         });
