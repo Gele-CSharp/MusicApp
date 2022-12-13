@@ -1,4 +1,4 @@
-﻿@model AllAlbumsModel
+﻿@model AdminAreaAllAlbumsModel
 
 @{
     ViewBag.Title = "Admin area - Albums";
@@ -39,9 +39,19 @@
             </div>
         </div>
 
+        <div class="form-group col-md-3">
+            <div class="form-group">
+                <label asp-for="IsActive">State</label>
+                <select asp-for="IsActive" class="form-control">
+                    <option value="true">Active</option>
+                    <option value="false">Deleted</option>
+                </select>
+            </div>
+        </div>
+
         <div class="col-md-3">
             <div class="form-group mt-4 p-2">
-                <input type="submit" value="Search" class="btn btn-primary" />
+                <input type="submit" value="Search" class="btn btn-primary" /> 
             </div>
         </div>
     </div>

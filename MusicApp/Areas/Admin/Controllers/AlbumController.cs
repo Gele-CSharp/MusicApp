@@ -17,9 +17,9 @@ namespace MusicApp.Areas.Admin.Controllers
             commentService = _commentService;
         }
 
-        public async Task<IActionResult> All([FromQuery] AllAlbumsModel query)
+        public async Task<IActionResult> All([FromQuery] AdminAreaAllAlbumsModel query)
         {
-            var result = await albumService.GetAllAlbums(query.Genre, query.SearchTerm, query.Sorting);
+            var result = await albumService.AdminGetAllAlbums(query.Genre, query.SearchTerm, query.Sorting, query.IsActive);
 
             query.TotalAlbumsCount = result.TotalAlbumsCount;
             query.Genres = await albumService.GetGenres();
@@ -28,9 +28,9 @@ namespace MusicApp.Areas.Admin.Controllers
             return View(query);
         }
 
-        public async Task<IActionResult> Details(int albumId)
+        public async Task<IActionResult> Details(int albumId, bool isActive)
         {
-            var model = await albumService.GetAlbumDetails(albumId);
+            var model = await albumService.AdminGetAlbumDetails(albumId, isActive);
 
             return View(model);
         }
