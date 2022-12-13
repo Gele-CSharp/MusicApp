@@ -14,5 +14,7 @@ namespace MusicApp.Core.Contracts
         Task<EditCommentModel> GetCommentToEdit(int albumId, int commentId);
 
         Task Edit(EditCommentModel model);
+
+        Task Delete(int albumId, int commentId);
     }
 }

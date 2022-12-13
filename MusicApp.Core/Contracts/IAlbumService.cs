@@ -9,7 +9,7 @@ namespace MusicApp.Core.Contracts
 
         Task<AllAlbumsModel> GetAllAlbums(string? genre = null, string? searchTerm = null, AlbumsSorting sorting = AlbumsSorting.Newest, int currentPage = 1, int albumsPerPage = 1 );
 
-        Task<AllAlbumsModel> GetAllAlbums(string? genre = null, string? searchTerm = null, AlbumsSorting sorting = AlbumsSorting.Newest);
+        Task<AdminAreaAllAlbumsModel> AdminGetAllAlbums(string? genre = null, string? searchTerm = null, AlbumsSorting sorting = AlbumsSorting.Newest, bool isActive = true);
 
         Task<IEnumerable<AlbumModel>> GetAllUserAlbums(string userId);
 
@@ -18,6 +18,8 @@ namespace MusicApp.Core.Contracts
         Task<IEnumerable<AlbumGenreModel>> GetGenreModels();
 
         Task<AlbumDetailsModel> GetAlbumDetails(int albumId);
+
+        Task<AlbumDetailsModel> AdminGetAlbumDetails(int albumId, bool isActive);
 
         Task<AddAlbumModel> GetAlbumDetailsToEdit(int albumId);
 
