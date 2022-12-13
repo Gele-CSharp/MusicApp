@@ -124,6 +124,39 @@ namespace MusicApp.Core.Services
             };
         }
 
+        public async Task<AlbumDetailsModel> AdminGetAlbumDetails(int albumId, bool isActive)
+        {
+            var album = await repository
+                .AllReadonly<Album>()
+                .Where(a=> isActive ? a.IsActive : a.IsActive == false)
+                .Where(a => a.Id == albumId)
+                .Include(a => a.User)
+                .Include(a => a.Genre)
+                .FirstAsync();
+
+            var comments = await commentService.GetComments(albumId);
+
+            return new AlbumDetailsModel()
+            {
+                Id = album.Id,
+                Title = album.Title,
+                Artist = album.Artist,
+                ImageUrl = album.ImageUrl,
+                Description = album.Description,
+                GenreId = album.GenreId,
+                Genre = album.Genre,
+                UserId = album.UserId,
+                User = album.User,
+                Year = album.Year,
+                Likes = album.Likes,
+                Comments = new CommentModel()
+                {
+                    AlbumId = albumId,
+                    Comments = comments
+                }
+            };
+        }
+
         public async Task<AddAlbumModel> GetAlbumDetailsToEdit(int albumId)
         {
             var album = await repository
@@ -215,11 +248,11 @@ namespace MusicApp.Core.Services
             return result;
         }
 
-        public async Task<AllAlbumsModel> GetAllAlbums(string? genre = null, string? searchTerm = null, AlbumsSorting sorting = AlbumsSorting.Newest)
+        public async Task<AdminAreaAllAlbumsModel> AdminGetAllAlbums(string? genre = null, string? searchTerm = null, AlbumsSorting sorting = AlbumsSorting.Newest, bool isActiv = true)
         {
             var albums = repository
                 .AllReadonly<Album>()
-                .Where(a => a.IsActive);
+                .Where(a => isActiv == true ? a.IsActive : a.IsActive == false);
 
             if (genre != null)
             {
@@ -242,17 +275,18 @@ namespace MusicApp.Core.Services
                 _ => albums.OrderByDescending(a => a.Id)
             };
 
-            var result = new AllAlbumsModel();
+            var result = new AdminAreaAllAlbumsModel();
 
             result.Albums = albums
-                .Select(a => new AlbumModel()
+                .Select(a => new AdminAreaAlbumModel()
                 {
                     Id = a.Id,
                     Artist = a.Artist,
                     Title = a.Title,
                     ImageUrl = a.ImageUrl,
                     Genre = a.Genre,
-                    Year = a.Year
+                    Year = a.Year,
+                    IsActive = a.IsActive
                 });
 
             result.TotalAlbumsCount = await albums.CountAsync();
