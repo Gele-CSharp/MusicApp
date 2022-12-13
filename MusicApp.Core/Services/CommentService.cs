@@ -19,7 +19,7 @@ namespace MusicApp.Core.Services
         {
             return await repository
                 .AllReadonly<Comment>()
-                .Where(c => c.AlbumId == albumId)
+                .Where(c => c.IsActive && c.AlbumId == albumId)
                 .Include(c => c.User)
                 .ToListAsync();
         }
@@ -58,6 +58,7 @@ namespace MusicApp.Core.Services
         {
             return await repository
                 .All<Comment>()
+                .Where(c=> c.IsActive)
                 .Include(c=> c.User)
                 .Include(c=> c.Album)
                 .Where(c=> c.Album.Id == albumId)
@@ -75,6 +76,21 @@ namespace MusicApp.Core.Services
                 User = comment.User,
                 Content = comment.Content
             };
+        }
+
+        public async Task Delete(int albumId, int commentId)
+        {
+            var comment = await GetComment(albumId, commentId);
+            comment.IsActive = false;
+
+            try
+            {
+                await repository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Database failed to save info.", ex);
+            }
         }
     }
 }
