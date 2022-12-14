@@ -19,5 +19,11 @@
         /// Number of users
         /// </summary>
         public int Users { get; init; }
+
+        /// <summary>
+        /// Number of events
+        /// </summary>
+        public int Events { get; init; }
+
     }
 }

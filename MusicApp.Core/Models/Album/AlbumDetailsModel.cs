@@ -64,5 +64,10 @@ namespace MusicApp.Core.Models.Album
         /// User added current album
         /// </summary>
         public virtual User User { get; set; } = null!;
+
+        /// <summary>
+        /// Determines if album to be displayed
+        /// </summary>
+        public bool IsActive { get; set; }
     }
 }

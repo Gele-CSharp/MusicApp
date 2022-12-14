@@ -149,6 +149,7 @@ namespace MusicApp.Core.Services
                 User = album.User,
                 Year = album.Year,
                 Likes = album.Likes,
+                IsActive = album.IsActive,
                 Comments = new CommentModel()
                 {
                     AlbumId = albumId,
@@ -175,6 +176,28 @@ namespace MusicApp.Core.Services
                 Description = album.Description,
                 Year = album.Year,
                 GenreId = album.GenreId
+            };
+        }
+
+        public async Task<AddAlbumModel> AdminGetAlbumDetailsToEdit(int albumId)
+        {
+            var album = await repository
+                .AllReadonly<Album>()
+                .Where(a=> a.Id == albumId)
+                .Include(a => a.User)
+                .Include(a => a.Genre)
+                .FirstAsync();
+
+            return new AddAlbumModel()
+            {
+                Id = album.Id,
+                Title = album.Title,
+                Artist = album.Artist,
+                ImageUrl = album.ImageUrl,
+                Description = album.Description,
+                Year = album.Year,
+                GenreId = album.GenreId,
+                IsActive = album.IsActive
             };
         }
 
@@ -248,11 +271,11 @@ namespace MusicApp.Core.Services
             return result;
         }
 
-        public async Task<AdminAreaAllAlbumsModel> AdminGetAllAlbums(string? genre = null, string? searchTerm = null, AlbumsSorting sorting = AlbumsSorting.Newest, bool isActiv = true)
+        public async Task<AdminAreaAllAlbumsModel> AdminGetAllAlbums(string? genre = null, string? searchTerm = null, AlbumsSorting sorting = AlbumsSorting.Newest, AlbumState state = AlbumState.Active)
         {
             var albums = repository
                 .AllReadonly<Album>()
-                .Where(a => isActiv == true ? a.IsActive : a.IsActive == false);
+                .Where(a => state == AlbumState.Active ? a.IsActive : a.IsActive == false);
 
             if (genre != null)
             {
@@ -389,6 +412,27 @@ namespace MusicApp.Core.Services
                 catch (Exception ex)
                 {
                     logger.LogError(nameof(LikeAlbum), ex);
+                    throw new ApplicationException("Database failed to save info.", ex);
+                }
+            }
+        }
+
+        public async Task Restore(int albumId, string userId)
+        {
+            var album = await repository.GetByIdAsync<Album>(albumId);
+            var user = await repository.GetByIdAsync<User>(userId);
+
+            album.IsActive = true;
+
+            if ((await userManager.IsInRoleAsync(user, "Administrator")))
+            {
+                try
+                {
+                    await repository.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(nameof(Restore), ex);
                     throw new ApplicationException("Database failed to save info.", ex);
                 }
             }

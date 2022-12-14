@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MusicApp.Core.Contracts;
 
 namespace MusicApp.Controllers
@@ -12,6 +13,7 @@ namespace MusicApp.Controllers
             statisticsService = _statisticsService;
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Top3()
         {
             var model = await statisticsService.Top3();

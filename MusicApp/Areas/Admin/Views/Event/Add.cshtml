@@ -1,13 +1,13 @@
-﻿@model AddAlbumModel
+﻿@model EventModel
 
 @{
-    ViewBag.Title = "Admin area - Edit";
+    ViewBag.Title = "Admin area - Add Event";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
 <hr />
 
-<partial name="_AlbumFormPartial" model="@Model" />
+<partial name="_EventFormPartial" model=@Model/>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

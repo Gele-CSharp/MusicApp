@@ -26,8 +26,16 @@
             <div class="form-inline">
                 <a class="btn btn-warning" asp-area="Admin" asp-controller="Album" asp-action="Edit"
                    asp-route-id="@Model.Id">Edit</a>
-                <a class="ml-2 btn btn-danger" asp-area="Admin" asp-controller="Album" asp-action="Delete"
-                   asp-route-id="@Model.Id">Delete</a>
+                @if (Model.IsActive)
+                {
+                    <a class="ml-2 btn btn-danger" asp-area="Admin" asp-controller="Album" asp-action="Delete"
+                       asp-route-id="@Model.Id">Delete</a>
+                }
+                else
+                {
+                    <a class="ml-2 btn btn-success" asp-area="Admin" asp-controller="Album" asp-action="Restore"
+                       asp-route-id="@Model.Id">Restore</a>
+                }
             </div>
             <p></p>
             <partial name="_CommentPartial" model="@Model.Comments"/>

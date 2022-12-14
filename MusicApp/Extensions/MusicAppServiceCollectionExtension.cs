@@ -12,6 +12,7 @@ public static class MusicAppServiceCollectionExtension
         services.AddScoped<IAlbumService, AlbumService>();
         services.AddScoped<IStatisticsService, StatisticsService>();
         services.AddScoped<ICommentService, CommentService>();
+        services.AddScoped<IEventService, EventService>();
 
         return services;
     }

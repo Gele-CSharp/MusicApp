@@ -33,11 +33,16 @@ namespace MusicApp.Core.Services
                 .AllReadonly<User>()
                 .CountAsync();
 
+            var events = await repository
+                .AllReadonly<Event>()
+                .CountAsync();
+
             return new StatisticsModel()
             {
                 Albums = albums,
                 Artists = artists,
-                Users = users
+                Users = users,
+                Events = events
             };
         }
 

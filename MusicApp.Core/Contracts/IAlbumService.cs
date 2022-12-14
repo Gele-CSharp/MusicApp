@@ -9,7 +9,7 @@ namespace MusicApp.Core.Contracts
 
         Task<AllAlbumsModel> GetAllAlbums(string? genre = null, string? searchTerm = null, AlbumsSorting sorting = AlbumsSorting.Newest, int currentPage = 1, int albumsPerPage = 1 );
 
-        Task<AdminAreaAllAlbumsModel> AdminGetAllAlbums(string? genre = null, string? searchTerm = null, AlbumsSorting sorting = AlbumsSorting.Newest, bool isActive = true);
+        Task<AdminAreaAllAlbumsModel> AdminGetAllAlbums(string? genre = null, string? searchTerm = null, AlbumsSorting sorting = AlbumsSorting.Newest, AlbumState state = AlbumState.Active);
 
         Task<IEnumerable<AlbumModel>> GetAllUserAlbums(string userId);
 
@@ -22,6 +22,8 @@ namespace MusicApp.Core.Contracts
         Task<AlbumDetailsModel> AdminGetAlbumDetails(int albumId, bool isActive);
 
         Task<AddAlbumModel> GetAlbumDetailsToEdit(int albumId);
+
+        Task<AddAlbumModel> AdminGetAlbumDetailsToEdit(int albumId);
 
         Task<int> AddAlbum(AddAlbumModel model, string userId);
 
@@ -36,5 +38,8 @@ namespace MusicApp.Core.Contracts
         Task Edit(int albumId, string userId, AddAlbumModel model);
 
         Task Delete(int albumId, string userId);
+
+        Task Restore(int albumId, string userId);
+
     }
 }

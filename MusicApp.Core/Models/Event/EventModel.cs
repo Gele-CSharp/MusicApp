@@ -1,12 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static MusicApp.Infrastructure.Data.DataConstants.Event;
 
-namespace MusicApp.Infrastructure.Data.Entities
+namespace MusicApp.Core.Models.Event
 {
-    /// <summary>
-    /// Event model
-    /// </summary>
-    public class Event
+    public class EventModel
     {
         /// <summary>
         /// Event identifier

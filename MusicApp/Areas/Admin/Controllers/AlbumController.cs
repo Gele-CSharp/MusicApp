@@ -19,7 +19,7 @@ namespace MusicApp.Areas.Admin.Controllers
 
         public async Task<IActionResult> All([FromQuery] AdminAreaAllAlbumsModel query)
         {
-            var result = await albumService.AdminGetAllAlbums(query.Genre, query.SearchTerm, query.Sorting, query.IsActive);
+            var result = await albumService.AdminGetAllAlbums(query.Genre, query.SearchTerm, query.Sorting, query.State);
 
             query.TotalAlbumsCount = result.TotalAlbumsCount;
             query.Genres = await albumService.GetGenres();
@@ -51,7 +51,7 @@ namespace MusicApp.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var model = await albumService.GetAlbumDetailsToEdit(id);
+            var model = await albumService.AdminGetAlbumDetailsToEdit(id);
             model.Genres = await albumService.GetGenreModels();
             return View(model);
         }
@@ -70,13 +70,20 @@ namespace MusicApp.Areas.Admin.Controllers
 
             await albumService.Edit(albumId, userId, model);
 
-            return RedirectToAction(nameof(Details), new { albumId });
+            return RedirectToAction(nameof(Details), new { area = "Admin", albumId, isActive = model.IsActive });
         }
 
         public async Task<IActionResult> Delete(int id)
         {
             var userId = User.Id();
             await albumService.Delete(id, userId);
+            return RedirectToAction(nameof(All));
+        }
+
+        public async Task<IActionResult> Restore(int id)
+        {
+            var userId = User.Id();
+            await albumService.Restore(id, userId);
             return RedirectToAction(nameof(All));
         }
     }

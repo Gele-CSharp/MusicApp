@@ -45,7 +45,7 @@ namespace MusicApp.Core.Models.Album
         /// <summary>
         /// Determines if activ or deleted albums to be displayed
         /// </summary>
-        public bool IsActive { get; set; }
+        public AlbumState State { get; set; }
 
         /// <summary>
         /// Albums collection

@@ -1,0 +1,36 @@
+﻿@using MusicApp.Extensions
+
+<div class="col-md-4">
+    <div class="card mb-3">
+        <img class="card-img-top" src="@Model.ImageUrl" alt="Event Image">
+        <div class="card-body text-center">
+            <h4>@Model.Date</h4>
+            <h6>Artist: <b>@Model.Artist</b></h6>
+            <h6>Release year: <b>@Model.Location</b></h6>
+            <br />
+            @*<a asp-controller="Album" asp-action="Details" asp-route-albumId="@Model.Id" asp-route-isActive="@Model.IsActive"
+               asp-route-information="@Model.GetInformation()" class="btn btn-success">Details</a>*@
+            <a asp-controller="Album" asp-action="Edit" asp-route-id="@Model.Id"
+               class="btn btn-warning">Edit</a>
+            <a asp-controller="Album" asp-action="Delete" asp-route-id="@Model.Id"
+               class="btn btn-danger">Delete</a>
+            <a asp-area="Admin" asp-controller="Album" asp-action="Restore" asp-route-id="@Model.Id"
+               class="btn btn-success">Restore</a>
+            @*@if (this.User?.Identity?.IsAuthenticated ?? false)
+            {
+                if (@Model.IsActive)
+                {
+                    <a asp-controller="Album" asp-action="Edit" asp-route-id="@Model.Id"
+                       class="btn btn-warning">Edit</a>
+                    <a asp-controller="Album" asp-action="Delete" asp-route-id="@Model.Id"
+                       class="btn btn-danger">Delete</a>
+                }
+                else
+                {
+                    <a asp-area="Admin" asp-controller="Album" asp-action="Restore" asp-route-id="@Model.Id"
+                       class="btn btn-success">Restore</a>
+                }
+            }*@
+        </div>
+    </div>
+</div>

@@ -14,8 +14,8 @@
 
   <ItemGroup>
     <Compile Include="Contracts\IAlbumService.cs" />
-    <Compile Include="Contracts\IAdminService.cs" />
     <Compile Include="Contracts\ICommentService.cs" />
+    <Compile Include="Contracts\IEventService.cs" />
     <Compile Include="Contracts\IStatisticsService.cs" />
   </ItemGroup>
 

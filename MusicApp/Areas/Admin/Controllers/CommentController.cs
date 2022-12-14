@@ -26,13 +26,13 @@ namespace MusicApp.Areas.Admin.Controllers
         {
             await commentService.Edit(model);
 
-            return RedirectToAction("Details", "Album", new { area = "Admin", albumId = model.AlbumId });
+            return RedirectToAction("Details", "Album", new { area = "Admin", albumId = model.AlbumId, isActive = true });
         }
 
         public async Task<IActionResult> Delete(int id, int albumId)
         {
             await commentService.Delete(albumId, id);
-            return RedirectToAction("Details", "Album", new { area = "Admin", albumId });
+            return RedirectToAction("Details", "Album", new { area = "Admin", albumId, isActive = false });
         }
     }
 }

@@ -58,5 +58,10 @@ namespace MusicApp.Core.Models.Album
         [Required]
         [Range(ReleaseYearMinValue, ReleaseYearMaxValue)]
         public int Year { get; set; }
+
+        /// <summary>
+        /// Determines if album to be displayed
+        /// </summary>
+        public bool IsActive { get; set; }
     }
 }
