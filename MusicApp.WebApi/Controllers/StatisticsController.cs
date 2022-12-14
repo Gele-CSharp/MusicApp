@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MusicApp.Core.Contracts;
 using MusicApp.Core.Models.Statistics;
 
@@ -16,6 +17,7 @@ namespace MusicApp.WebApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Produces("application/json")]
         [ProducesResponseType(200, Type = typeof(StatisticsModel))]
         [ProducesResponseType(500)]
