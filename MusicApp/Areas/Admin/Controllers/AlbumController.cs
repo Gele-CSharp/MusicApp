@@ -35,19 +35,6 @@ namespace MusicApp.Areas.Admin.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Comment(CommentModel model, int albumId)
-        {
-            var userId = User.Id();
-
-            if (model.Comment != null)
-            {
-                await commentService.AddComment(albumId, userId, model.Comment);
-            }
-
-            return RedirectToAction(nameof(Details), new { albumId });
-        }
-
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
