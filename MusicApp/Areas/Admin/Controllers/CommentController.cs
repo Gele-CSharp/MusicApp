@@ -32,7 +32,20 @@ namespace MusicApp.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int id, int albumId)
         {
             await commentService.Delete(albumId, id);
-            return RedirectToAction("Details", "Album", new { area = "Admin", albumId, isActive = false });
+            return RedirectToAction("Details", "Album", new { area = "Admin", albumId, isActive = true });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Comment(CommentModel model, int albumId)
+        {
+            var userId = User.Id();
+
+            if (model.Comment != null)
+            {
+                await commentService.AddComment(albumId, userId, model.Comment);
+            }
+
+            return RedirectToAction("Details", "Album", new { area = "Admin", albumId, isActive = true });
         }
     }
 }
