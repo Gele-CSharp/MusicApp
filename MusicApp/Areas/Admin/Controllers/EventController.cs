@@ -34,5 +34,35 @@ namespace MusicApp.Areas.Admin.Controllers
 
             return RedirectToAction(nameof(All));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = await eventService.EventDetailsToEdit(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EventModel model)
+        {
+            await eventService.Edit(model);
+
+            return RedirectToAction(nameof(All), "Event");
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await eventService.Delete(id);
+
+            return RedirectToAction(nameof(All), "Event");
+        }
+
+        public async Task<IActionResult> Restore(int id)
+        {
+            await eventService.Restore(id);
+
+            return RedirectToAction(nameof(All), "Event");
+        }
     }
 }
