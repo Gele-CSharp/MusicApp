@@ -30,7 +30,7 @@ else
 
 @if (this.User?.Identity?.IsAuthenticated ?? false)
 {
-    <form asp-area="Admin" asp-controller="Album" asp-action="Comment" method="post" asp-route-albumId="@Model.AlbumId">
+    <form asp-area="Admin" asp-controller="Comment" asp-action="Comment" method="post" asp-route-albumId="@Model.AlbumId">
         <div class="form-group card-header row">
             <div class="col-12">
                 <h5>Post a new comment</h5>
