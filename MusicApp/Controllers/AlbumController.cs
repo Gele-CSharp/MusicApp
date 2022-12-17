@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using MusicApp.Core.Constants;
 using MusicApp.Core.Contracts;
 using MusicApp.Core.Models.Album;
 using MusicApp.Core.Models.Comments;
-using MusicApp.Infrastructure.Data.Entities;
+using MusicApp.Extensions;
+using static MusicApp.Infrastructure.Data.DataConstants.Album;
 
 namespace MusicApp.Controllers
 {
@@ -12,14 +15,17 @@ namespace MusicApp.Controllers
         private readonly ILogger<HomeController> logger;
         private readonly IAlbumService albumService;
         private readonly ICommentService commentService;
+        private readonly IMemoryCache cache;
 
         public AlbumController(ILogger<HomeController> _logger,
                                IAlbumService _albumService,
-                               ICommentService commentService)
+                               ICommentService _commentService,
+                               IMemoryCache _cache)
         {
             logger = _logger;
             albumService = _albumService;
-            this.commentService = commentService;
+            commentService = _commentService;
+            cache = _cache;
         }
 
         [AllowAnonymous]
@@ -29,15 +35,20 @@ namespace MusicApp.Controllers
 
             query.TotalAlbumsCount = result.TotalAlbumsCount;
             query.Genres = await albumService.GetGenres();
-            query.Albums = result.Albums;
+            query.Albums = result.Albums.ToList();
             
             return View(query);
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Details(int albumId)
+        public async Task<IActionResult> Details(int albumId, string information)
         {
             var model = await albumService.GetAlbumDetails(albumId);
+
+            if (information != model.GetInformation())
+            {
+                return BadRequest();
+            }
 
             return View(model);
         }
@@ -50,6 +61,7 @@ namespace MusicApp.Controllers
             if (model.Comment != null)
             {
                 await commentService.AddComment(albumId, userId, model.Comment);
+                TempData[MessageConstant.SuccessMessage] = "You added a comment successfully.";
             }
 
             return RedirectToAction(nameof(Details), new { albumId });
@@ -78,14 +90,24 @@ namespace MusicApp.Controllers
 
             string userId = User.Id();
             int albumId = await albumService.AddAlbum(model, userId);
+            TempData[MessageConstant.SuccessMessage] = "You added an album successfully.";
 
-            return RedirectToAction(nameof(Details), new {albumId});
+            return RedirectToAction(nameof(Details), new {albumId, information = model.GetInformation()});
         }
 
         public async Task<IActionResult> Mine()
         {
             var userId = User.Id();
-            var model = await albumService.GetAllUserAlbums(userId);
+            var model = cache.Get<IEnumerable<AlbumModel>>(AlbumsCacheKey);
+
+            if (model == null)
+            {
+                model = await albumService.GetAllUserAlbums(userId);
+                var cacheOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(5));
+
+                cache.Set(AlbumsCacheKey, model, cacheOptions);
+            }
 
             return View(model);
         }
@@ -117,14 +139,18 @@ namespace MusicApp.Controllers
             var albumId = model.Id;
 
             await albumService.Edit(albumId, userId, model);
+            TempData[MessageConstant.SuccessMessage] = "You edited an album successfully.";
+            cache.Remove(AlbumsCacheKey);
 
-            return RedirectToAction(nameof(Details), new { albumId });
+            return RedirectToAction(nameof(Details), new { albumId, information = model.GetInformation() });
         }
 
         public async Task<IActionResult> Delete(int id)
         {
             var userId = User.Id();
             await albumService.Delete(id, userId);
+            TempData[MessageConstant.SuccessMessage] = "You deleted an album successfully.";
+            cache.Remove(AlbumsCacheKey);
             return RedirectToAction(nameof(All));
         }
     }
