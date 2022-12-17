@@ -3,7 +3,7 @@ using MusicApp.Infrastructure.Data.Entities;
 
 namespace MusicApp.Core.Models.Album
 {
-    public class AlbumDetailsModel
+    public class AlbumDetailsModel : IAlbumModel
     {
         /// <summary>
         /// Album identifier
