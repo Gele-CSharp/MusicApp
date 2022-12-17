@@ -1,5 +1,6 @@
 ﻿using HouseRentingSystem.Infrastructure.Data.Common;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using MusicApp.Core.Contracts;
 using MusicApp.Core.Models.Comments;
 using MusicApp.Infrastructure.Data.Entities;
@@ -9,10 +10,12 @@ namespace MusicApp.Core.Services
     public class CommentService : ICommentService
     {
         private readonly IRepository repository;
+        private readonly ILogger logger;
 
-        public CommentService(IRepository _repository)
+        public CommentService(IRepository _repository, ILogger<CommentService> _logger)
         {
             repository = _repository;
+            logger = _logger;
         }
 
         public async Task<ICollection<Comment>> GetComments(int albumId)
@@ -30,7 +33,16 @@ namespace MusicApp.Core.Services
             comment.UserId = userId;
             comment.AlbumId = albumId;
             album.Comments.Add(comment);
-            await repository.SaveChangesAsync();
+
+            try
+            {
+                await repository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(AddComment), ex);
+                throw new ApplicationException("Database failed to save info.", ex);
+            }
         }
 
         public async Task Edit(EditCommentModel model)
@@ -50,6 +62,7 @@ namespace MusicApp.Core.Services
             }
             catch (Exception ex)
             {
+                logger.LogError(nameof(Edit), ex);
                 throw new ApplicationException("Database failed to save info.", ex);
             }
         }
@@ -89,6 +102,7 @@ namespace MusicApp.Core.Services
             }
             catch (Exception ex)
             {
+                logger.LogError(nameof(Delete), ex);
                 throw new ApplicationException("Database failed to save info.", ex);
             }
         }
