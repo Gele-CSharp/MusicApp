@@ -1,6 +1,5 @@
 ﻿using HouseRentingSystem.Infrastructure.Data.Common;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using MusicApp.Core.Contracts;
@@ -42,7 +41,17 @@ namespace MusicApp.Core.Services
             };
 
             await repository.AddAsync<Album>(album);
-            await repository.SaveChangesAsync();
+
+            try
+            {
+                await repository.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(nameof(Delete), ex);
+                throw new ApplicationException("Database failed to save info.", ex);
+            }
+
             return album.Id;
         }
 
