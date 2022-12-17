@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MusicApp.Data;
 using MusicApp.Infrastructure.Data.Entities;
@@ -22,14 +22,22 @@ builder.Services.AddDefaultIdentity<User>(options =>
 })
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<MusicAppDbContext>();
-builder.Services.AddControllersWithViews();
+
+builder.Services.AddAplicationServices();
+
+builder.Services.AddControllersWithViews(options=> 
+{
+    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+});
+
+
+builder.Services.AddMemoryCache();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/User/Login";
 });
 
-builder.Services.AddAplicationServices();
 
 var app = builder.Build();
 
