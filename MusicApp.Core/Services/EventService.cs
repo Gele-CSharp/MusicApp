@@ -9,10 +9,12 @@ namespace MusicApp.Core.Services
     public class EventService : IEventService
     {
         private readonly IRepository repository;
+        private readonly ILogger logger;
 
-        public EventService(IRepository _repository)
+        public EventService(IRepository _repository, ILogger<EventService> _logger)
         {
             repository = _repository;
+            logger = _logger;
         }
 
         public async Task AddEvent(EventModel model)
@@ -34,6 +36,7 @@ namespace MusicApp.Core.Services
             }
             catch (Exception ex)
             {
+                logger.LogError(nameof(AddEvent), ex);
                 throw new ApplicationException("Database failed to save info.", ex);
             }
         }
@@ -83,6 +86,7 @@ namespace MusicApp.Core.Services
                 }
                 catch (Exception ex)
                 {
+                    logger.LogError(nameof(Delete), ex);
                     throw new ApplicationException("Database failed to save info.", ex);
                 }
             }
@@ -109,6 +113,7 @@ namespace MusicApp.Core.Services
                 }
                 catch (Exception ex)
                 {
+                    logger.LogError(nameof(Edit), ex);
                     throw new ApplicationException("Database failed to save info.", ex);
                 }
             }
@@ -147,6 +152,7 @@ namespace MusicApp.Core.Services
                 }
                 catch (Exception ex)
                 {
+                    logger.LogError(nameof(Restore), ex);
                     throw new ApplicationException("Database failed to save info.", ex);
                 }
             }
