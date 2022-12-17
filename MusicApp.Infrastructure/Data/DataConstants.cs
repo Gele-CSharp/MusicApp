@@ -15,6 +15,9 @@ public static class DataConstants
 
         public const int ReleaseYearMinValue = 1948;
         public const int ReleaseYearMaxValue = 2023;
+
+        public const string AlbumsCacheKey = "AlbumsCacheKey";
+        public const string LastThreeAlbumsCacheKey = "LastThreeAlbumsCacheKey";
     }
 
     public static class Comment
@@ -51,5 +54,7 @@ public static class DataConstants
 
         public const int LocationNameMinLength = 5;
         public const int LocationNameMaxLength = 50;
+
+        public const string EventsCacheKey = "EventsCacheKey";
     }
 }
