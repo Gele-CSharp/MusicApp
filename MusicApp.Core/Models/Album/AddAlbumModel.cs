@@ -6,7 +6,7 @@ namespace MusicApp.Core.Models.Album
     /// <summary>
     /// Add album model
     /// </summary>
-    public class AddAlbumModel
+    public class AddAlbumModel : IAlbumModel
     {
         /// <summary>
         /// Album identifier
