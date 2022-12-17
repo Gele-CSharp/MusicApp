@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MusicApp.Core.Contracts;
 using MusicApp.Core.Models.Album;
-using MusicApp.Core.Models.Comments;
 
 namespace MusicApp.Areas.Admin.Controllers
 {
