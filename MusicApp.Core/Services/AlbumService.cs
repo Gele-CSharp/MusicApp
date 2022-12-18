@@ -48,7 +48,7 @@ namespace MusicApp.Core.Services
             }
             catch (Exception ex)
             {
-                logger.LogError(nameof(Delete), ex);
+                logger.LogError(nameof(AddAlbum), ex);
                 throw new ApplicationException("Database failed to save info.", ex);
             }
 
@@ -125,6 +125,7 @@ namespace MusicApp.Core.Services
                 User = album.User,
                 Year = album.Year,
                 Likes = album.Likes,
+                IsActive = album.IsActive,
                 Comments = new CommentModel()
                 {
                     AlbumId = albumId,
@@ -409,11 +410,11 @@ namespace MusicApp.Core.Services
             var album = await repository.GetByIdAsync<Album>(albumId);
             var user = await repository.GetByIdAsync<User>(userId);
 
-            album.Likes++;
-            user.Likes.Add(new Like() { AlbumId = albumId });
-
             if ((await IsAlbumAddedByUser(albumId, userId)) == false && (await IsAlbumLikedByUser(albumId, userId)) == false)
             {
+                album.Likes++;
+                user.Likes.Add(new Like() { AlbumId = albumId });
+
                 try
                 {
                     await repository.SaveChangesAsync();
