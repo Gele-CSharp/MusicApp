@@ -57,6 +57,13 @@ namespace MusicApp.Controllers
         public async Task<IActionResult> Comment(CommentModel model, int albumId)
         {
             var userId = User.Id();
+            var album = await albumService.GetAlbum(albumId);
+
+            var albumModel = new AlbumDetailsModel()
+            {
+                Title = album.Title,
+                Artist = album.Artist
+            };
 
             if (model.Comment != null)
             {
@@ -64,8 +71,8 @@ namespace MusicApp.Controllers
                 TempData[MessageConstant.SuccessMessage] = "You added a comment successfully.";
             }
 
-            return RedirectToAction(nameof(Details), new { albumId });
-        }
+            return RedirectToAction(nameof(Details), new { albumId, information = albumModel.GetInformation()});
+       }
 
         [HttpGet]
         public async Task<IActionResult> Add()
